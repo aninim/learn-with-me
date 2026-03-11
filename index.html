@@ -1093,7 +1093,7 @@ const Onboard = (() => {
     if (typeof Progress !== 'undefined') Progress.startSession();
     const s = document.getElementById('screen-onboarding');
     s.style.animation = 'obOut 0.35s ease forwards';
-    setTimeout(() => App.show('home'), 320);
+    setTimeout(() => App.show('profiles'), 320);
   }
 
   return { setAge, setTheme, finish };
@@ -1501,14 +1501,8 @@ window.addEventListener('load', () => {
       // First ever launch — onboarding is already the active screen
       document.getElementById('star-count').textContent = 0;
       setTimeout(() => { if (typeof Speech !== 'undefined') Speech.speak(Lang.isHe() ? 'שלום! כמה אתה בן?' : 'Hello! How old are you?'); }, 500);
-    } else if (profiles.length === 1) {
-      // Single profile — skip selector, go straight home
-      Profiles.select(profiles[0].id);
-      Progress.startSession();
-      document.getElementById('star-count').textContent = Progress.getTotalStars();
-      App.show('home');
     } else {
-      // Multiple profiles — show profile selector
+      // 1 or more profiles — always show profile selector
       document.getElementById('star-count').textContent = 0;
       App.show('profiles');
     }
