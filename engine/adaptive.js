@@ -6,12 +6,11 @@
 // ============================================================
 
 const Adaptive = (() => {
-  const STORAGE_KEY      = 'ylmd_progress';
   const WEIGHT_THRESHOLD = 0.70; // below this → double weight
 
+  // Phase 10: use Progress.load() so adaptive reads the active profile's data
   function _load() {
-    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }
-    catch { return {}; }
+    return (typeof Progress !== 'undefined') ? Progress.load() : {};
   }
 
   // Build a pool of indices into the items array.

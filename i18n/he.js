@@ -82,4 +82,20 @@ const HE = {
   smallWinMsg:     'בואנו נשחק משחק קל ונחזור',
   smallWinChoose:  'בחר משחק!',
   smallWinBack:    'חזרה לבית',
+
+  // Profile Selector (Phase 10)
+  profilesTitle:      'מי משחק?',
+  profileAdd:         '+ הוסף ילד',
+  profileCreate:      'פרופיל חדש',
+  profileEdit:        'ערוך פרופיל',
+  profileSave:        'שמור',
+  profileCancel:      'ביטול',
+  profileDelete:      'מחק פרופיל',
+  profileNeverPlayed: 'עדיין לא שיחק',
+  profileToday:       'היום',
+  profileYesterday:   'אתמול',
+  profileSwitch:      'החלף ילד',
+  welcomeBackRecent:  'התגעגענו אליך, {name}! 👋',
+  welcomeBackGap:     'בואו נזכור איפה עצרנו, {name}!',
+  welcomeBackLong:    'מתחילים מחדש, {name}! 🌟',
 };

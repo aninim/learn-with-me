@@ -266,6 +266,135 @@
       .choice-btn         { min-height: 120px; }
     }
 
+    /* ---- PROFILE SELECTOR ---- */
+    #screen-profiles {
+      background: linear-gradient(145deg, #080c2a 0%, #1a0a2e 55%, #041a04 100%);
+      overflow-y: auto; justify-content: flex-start; padding: 2rem 1rem; gap: 1.2rem;
+    }
+    .profiles-header { text-align: center; }
+    .profiles-header h2 {
+      font-family: 'Varela Round', sans-serif; font-size: clamp(1.8rem, 6vw, 2.6rem);
+      color: white; margin: 0 0 0.3rem;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.4);
+    }
+    .profiles-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1rem; width: min(92vw, 480px);
+    }
+    .profile-card {
+      position: relative; min-height: 130px;
+      background: rgba(255,255,255,0.10); backdrop-filter: blur(8px);
+      border: 2px solid rgba(255,255,255,0.15); border-radius: 20px;
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; gap: 0.25rem; cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+      color: white; font-family: 'Varela Round', sans-serif;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.35); padding: 0.8rem 0.5rem;
+      border: none;
+    }
+    .profile-card:active { transform: scale(0.93); }
+    .profile-card:hover  { box-shadow: 0 0 24px rgba(255,209,100,0.3), 0 4px 18px rgba(0,0,0,0.35); outline: 2px solid var(--yellow); }
+    .profile-avatar { font-size: 3rem; line-height: 1; }
+    .profile-name   { font-size: 1rem; font-weight: 700; }
+    .profile-last   { font-size: 0.7rem; opacity: 0.65; }
+    .profile-stars  { font-size: 0.75rem; opacity: 0.85; }
+    .profile-edit-btn {
+      position: absolute; top: 7px; left: 7px;
+      background: rgba(255,255,255,0.15); border: none; border-radius: 8px;
+      width: 28px; height: 28px; font-size: 0.75rem; cursor: pointer;
+      color: white; transition: background 0.15s; z-index: 1;
+    }
+    .profile-edit-btn:hover { background: rgba(255,255,255,0.3); }
+    .profile-add-btn {
+      display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+      width: min(92vw, 480px); min-height: 60px;
+      background: rgba(255,255,255,0.07); border: 2px dashed rgba(255,255,255,0.25);
+      border-radius: 16px; color: rgba(255,255,255,0.7);
+      font-family: 'Varela Round', sans-serif; font-size: 1.1rem;
+      cursor: pointer; transition: all 0.15s;
+    }
+    .profile-add-btn:hover { background: rgba(255,255,255,0.14); border-color: var(--yellow); color: white; }
+
+    /* ---- PROFILE MODAL ---- */
+    .profile-modal {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.75);
+      z-index: 200; display: none; align-items: center; justify-content: center;
+    }
+    .profile-modal-inner {
+      background: #1a1a2e; border-radius: 22px; padding: 1.6rem 1.4rem;
+      width: min(92vw, 360px); display: flex; flex-direction: column;
+      gap: 1rem; box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+    .profile-modal-title {
+      font-family: 'Varela Round', sans-serif; font-size: 1.3rem;
+      color: white; text-align: center;
+    }
+    #profile-name-input {
+      width: 100%; padding: 0.65rem 1rem; border-radius: 12px;
+      border: 2px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.1);
+      color: white; font-family: 'Varela Round', sans-serif; font-size: 1.1rem;
+      text-align: center; outline: none; box-sizing: border-box;
+    }
+    #profile-name-input:focus { border-color: var(--yellow); }
+    .profile-avatar-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.4rem; }
+    .avatar-pick-btn {
+      width: 100%; aspect-ratio: 1; border: 2px solid transparent; border-radius: 10px;
+      background: rgba(255,255,255,0.08); font-size: 1.4rem; cursor: pointer;
+      transition: all 0.12s; display: flex; align-items: center; justify-content: center;
+    }
+    .avatar-pick-btn:hover   { background: rgba(255,255,255,0.18); }
+    .avatar-pick-btn.selected { border-color: var(--yellow); background: rgba(255,209,100,0.2); }
+    .profile-age-row { display: flex; gap: 0.8rem; justify-content: center; }
+    .profile-age-row .ob-age-btn { width: 80px; height: 80px; font-size: 1.6rem; }
+    .profile-modal-actions { display: flex; gap: 0.6rem; justify-content: center; flex-wrap: wrap; }
+    .profile-modal-actions button {
+      padding: 0.6rem 1.3rem; border-radius: 12px; border: none;
+      font-family: 'Varela Round', sans-serif; font-size: 1rem;
+      cursor: pointer; font-weight: 700; transition: transform 0.1s;
+    }
+    .profile-modal-actions button:active { transform: scale(0.93); }
+    .btn-save   { background: var(--yellow); color: var(--dark); }
+    .btn-cancel { background: rgba(255,255,255,0.12); color: white; }
+    .btn-delete { background: var(--red); color: white; }
+
+    /* ---- WELCOME BACK OVERLAY ---- */
+    .welcome-back-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.78);
+      z-index: 150; display: none; align-items: center; justify-content: center; cursor: pointer;
+    }
+    .welcome-back-card {
+      background: #1a1a2e; border-radius: 24px; padding: 2.5rem 2rem;
+      text-align: center; display: flex; flex-direction: column;
+      align-items: center; gap: 1rem;
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: 0 12px 48px rgba(0,0,0,0.6);
+      animation: obIn 0.4s ease;
+    }
+    .welcome-back-msg {
+      font-family: 'Varela Round', sans-serif; font-size: clamp(1.2rem, 4vw, 1.8rem);
+      color: white;
+    }
+
+    /* ---- PROFILE CHIP (home screen) ---- */
+    .profile-chip {
+      display: none; align-items: center; gap: 0.4rem;
+      background: var(--bg-surface); border-radius: 99px;
+      padding: 0.25rem 0.75rem 0.25rem 0.5rem;
+      cursor: pointer; border: 2px solid rgba(128,128,128,0.22);
+      font-family: 'Varela Round', sans-serif; align-self: center;
+      margin-bottom: 0.2rem; transition: all 0.15s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    }
+    .profile-chip:hover { border-color: var(--orange); }
+    #profile-chip-avatar { font-size: 1.3rem; line-height: 1; }
+    #profile-chip-name   { font-size: 0.85rem; font-weight: 700; color: var(--dark); }
+
+    @media (min-width: 640px) {
+      .profiles-grid   { grid-template-columns: 1fr 1fr 1fr; width: min(92vw, 680px); }
+      .profile-add-btn { width: min(92vw, 680px); }
+    }
+
     /* ---- HOME WORLD BACKGROUND ---- */
     .home-world-bg {
       position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: 0;
@@ -582,6 +711,45 @@
 
 </div>
 
+<!-- ============================================================ PROFILES ============================================================ -->
+<div class="screen" id="screen-profiles">
+  <div class="profiles-header">
+    <h2 data-i18n="profilesTitle">מי משחק?</h2>
+  </div>
+  <div class="profiles-grid" id="profiles-grid">
+    <!-- Populated by ProfilesUI.renderSelector() -->
+  </div>
+  <button class="profile-add-btn" id="btn-add-profile" onclick="ProfilesUI.showCreate()">
+    <span>+</span>
+    <span data-i18n="profileAdd">הוסף ילד</span>
+  </button>
+</div>
+
+<!-- Profile create/edit modal -->
+<div class="profile-modal" id="profile-modal">
+  <div class="profile-modal-inner">
+    <div class="profile-modal-title" id="profile-modal-title" data-i18n="profileCreate">פרופיל חדש</div>
+    <input type="text" id="profile-name-input" placeholder="שם הילד" maxlength="12" />
+    <div class="profile-avatar-grid" id="profile-avatar-grid"></div>
+    <div class="profile-age-row" id="profile-age-row">
+      <button class="ob-age-btn" data-age="3-4" onclick="ProfilesUI.setAge('3-4')"><span class="ob-emoji">🐣</span><span class="ob-age-label">3–4</span></button>
+      <button class="ob-age-btn" data-age="5-6" onclick="ProfilesUI.setAge('5-6')"><span class="ob-emoji">⭐</span><span class="ob-age-label">5–6</span></button>
+    </div>
+    <div class="profile-modal-actions" id="profile-modal-actions">
+      <button class="btn-save"   onclick="ProfilesUI.saveProfile()"  data-i18n="profileSave">שמור</button>
+      <button class="btn-cancel" onclick="ProfilesUI.closeModal()"   data-i18n="profileCancel">ביטול</button>
+    </div>
+  </div>
+</div>
+
+<!-- Welcome-back overlay -->
+<div class="welcome-back-overlay" id="welcome-back-overlay" onclick="this.style.display='none'; App.show('home');">
+  <div class="welcome-back-card">
+    <div id="welcome-back-avatar" style="font-size:4rem;line-height:1;"></div>
+    <div class="welcome-back-msg" id="welcome-back-msg"></div>
+  </div>
+</div>
+
 <!-- ============================================================ HOME ============================================================ -->
 <div class="screen" id="screen-home" style="padding:0;justify-content:flex-start;overflow:hidden;position:relative;">
   <!-- Themed decorative background layer -->
@@ -589,6 +757,11 @@
 
   <!-- Scrollable content over the bg -->
   <div class="home-content">
+    <!-- Current child chip (visible when 2+ profiles exist) -->
+    <button class="profile-chip" id="profile-chip" onclick="App.show('profiles')">
+      <span id="profile-chip-avatar">🦁</span>
+      <span id="profile-chip-name">ילד</span>
+    </button>
     <!-- Age group selector pills -->
     <div class="home-age-row" id="home-age-row">
       <button class="age-pill" data-age="0" onclick="App.setAge(0)">🐣 3–4</button>
@@ -815,6 +988,7 @@
 <script src="i18n/en.js"></script>
 <script src="engine/lang.js"></script>
 <script src="engine/speech.js"></script>
+<script src="engine/profiles.js"></script>
 <script src="engine/progress.js"></script>
 <script src="engine/input.js"></script>
 <script src="engine/adaptive.js"></script>
@@ -910,6 +1084,13 @@ const Onboard = (() => {
   }
 
   function finish() {
+    // Create first profile from the onboarding selections
+    if (typeof Profiles !== 'undefined' && Profiles.getAll().length === 0) {
+      const ageGroup = localStorage.getItem('ylmd_age') === '1' ? '5-6' : '3-4';
+      const p = Profiles.create('ילד 1', '🦁', ageGroup);
+      if (p) Profiles.select(p.id);
+    }
+    if (typeof Progress !== 'undefined') Progress.startSession();
     const s = document.getElementById('screen-onboarding');
     s.style.animation = 'obOut 0.35s ease forwards';
     setTimeout(() => App.show('home'), 320);
@@ -952,6 +1133,7 @@ const App = (() => {
     if (screen === 'memory-match')     MemoryMatch.init();
     if (screen === 'voice-game')       VoiceGame.init();
     if (screen === 'small-win')        { refreshLabels(); Confetti.burst(); }
+    if (screen === 'profiles') { ProfilesUI.renderSelector(); refreshLabels(); }
     if (screen === 'home')             {
       refreshLabels();
       _syncLangBtn();
@@ -959,6 +1141,7 @@ const App = (() => {
       _renderHomeTheme();
       _refreshHomeStats();
       _renderModuleDots();
+      _renderProfileChip();
       Speech.speak(Lang.t('selectActivity'));
     }
   }
@@ -976,6 +1159,7 @@ const App = (() => {
   function setAge(tier) {
     localStorage.setItem('ylmd_age', String(tier));
     _syncAgePills();
+    if (typeof Profiles !== 'undefined') Profiles.syncCurrent({ ageGroup: tier === 1 ? '5-6' : '3-4' });
     if (typeof Speech !== 'undefined') Speech.speak(['קטן!', 'מדהים!'][tier]);
   }
 
@@ -1072,21 +1256,28 @@ const App = (() => {
     document.documentElement.dir = next === 'he' ? 'rtl' : 'ltr';
     refreshLabels();
     _syncLangBtn();
+    if (typeof Profiles !== 'undefined') Profiles.syncCurrent({ language: next });
     Speech.speak(next === 'he' ? 'עברית' : 'English');
   }
 
   function showOnboarding() {
     document.getElementById('settings-panel').style.display = 'none';
-    ['ob-step-age','ob-step-theme','ob-step-lang'].forEach((id, i) => {
+    ['ob-step-age','ob-step-theme'].forEach((id, i) => {
       document.getElementById(id).style.display = i === 0 ? 'flex' : 'none';
-    });
-    document.querySelectorAll('.ob-lang-btn').forEach(b => {
-      const code = b.textContent.trim().startsWith('🇮🇱') ? 'he' : 'en';
-      b.classList.toggle('active', code === Lang.get());
     });
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.getElementById('screen-onboarding').classList.add('active');
     active = 'onboarding';
+  }
+
+  function _renderProfileChip() {
+    const chip = document.getElementById('profile-chip');
+    if (!chip || typeof Profiles === 'undefined') return;
+    const p = Profiles.current();
+    if (!p || Profiles.getAll().length < 2) { chip.style.display = 'none'; return; }
+    chip.style.display = 'flex';
+    document.getElementById('profile-chip-avatar').textContent = p.avatar;
+    document.getElementById('profile-chip-name').textContent   = p.name;
   }
 
   return { show, addStar, setAge, toggleSettings, saveApiKey, showOnboarding, toggleLang };
@@ -1135,6 +1326,162 @@ const Confetti = (() => {
 })();
 
 // ============================================================
+// PROFILES UI
+// ============================================================
+const ProfilesUI = (() => {
+  let _editId         = null;
+  let _selectedAvatar = null;
+  let _selectedAge    = '3-4';
+
+  function renderSelector() {
+    const grid = document.getElementById('profiles-grid');
+    if (!grid) return;
+    const profiles = Profiles.getAll();
+    grid.innerHTML = '';
+    profiles.forEach(p => {
+      const progress  = (() => { try { return JSON.parse(localStorage.getItem(Profiles.progressKey(p.id))) || {}; } catch { return {}; } })();
+      const stars     = progress.totalStars || 0;
+      const lastStr   = _lastLabel(progress.lastPlayed);
+      const card      = document.createElement('button');
+      card.className  = 'profile-card';
+      card.innerHTML  = `
+        <button class="profile-edit-btn" onclick="ProfilesUI.showEdit('${p.id}',event)" title="${Lang.t('profileEdit')||'ערוך'}">✏️</button>
+        <div class="profile-avatar">${p.avatar}</div>
+        <div class="profile-name">${p.name}</div>
+        <div class="profile-last">${lastStr}</div>
+        <div class="profile-stars">⭐ ${stars}</div>`;
+      card.onclick = (e) => { if (e.target.classList.contains('profile-edit-btn')) return; _selectProfile(p.id); };
+      grid.appendChild(card);
+    });
+    const addBtn = document.getElementById('btn-add-profile');
+    if (addBtn) addBtn.style.display = profiles.length >= Profiles.MAX_PROFILES ? 'none' : 'flex';
+  }
+
+  function _lastLabel(ts) {
+    if (!ts) return Lang.t('profileNeverPlayed') || 'עדיין לא שיחק';
+    const d = Math.floor((Date.now() - ts) / 86400000);
+    if (d === 0) return Lang.t('profileToday')     || 'היום';
+    if (d === 1) return Lang.t('profileYesterday') || 'אתמול';
+    return Lang.isHe() ? `לפני ${d} ימים` : `${d} days ago`;
+  }
+
+  function _selectProfile(id) {
+    Profiles.select(id);
+    Progress.startSession();
+    const tier = Profiles.welcomeTier(id);
+    if (tier === 'sameDay' || tier === 'new') {
+      App.show('home');
+    } else {
+      _showWelcomeBack(id, tier);
+    }
+  }
+
+  function _showWelcomeBack(id, tier) {
+    const p       = Profiles.getAll().find(pr => pr.id === id);
+    const overlay = document.getElementById('welcome-back-overlay');
+    const msgEl   = document.getElementById('welcome-back-msg');
+    const avEl    = document.getElementById('welcome-back-avatar');
+    if (!overlay || !p) { App.show('home'); return; }
+    const templates = {
+      recent: Lang.t('welcomeBackRecent'),
+      gap:    Lang.t('welcomeBackGap'),
+      long:   Lang.t('welcomeBackLong'),
+    };
+    const msg = (templates[tier] || '').replace('{name}', p.name);
+    avEl.textContent  = p.avatar;
+    msgEl.textContent = msg;
+    overlay.style.display = 'flex';
+    if (typeof Speech !== 'undefined') Speech.speak(msg);
+    setTimeout(() => { overlay.style.display = 'none'; App.show('home'); }, 2800);
+  }
+
+  function showCreate() {
+    _editId         = null;
+    _selectedAvatar = Profiles.AVATARS[Profiles.getAll().length % Profiles.AVATARS.length];
+    _selectedAge    = localStorage.getItem('ylmd_age') === '1' ? '5-6' : '3-4';
+    _openModal('', Lang.t('profileCreate') || 'פרופיל חדש', false);
+  }
+
+  function showEdit(id, e) {
+    if (e) e.stopPropagation();
+    _editId = id;
+    const p = Profiles.getAll().find(pr => pr.id === id);
+    if (!p) return;
+    _selectedAvatar = p.avatar;
+    _selectedAge    = p.ageGroup;
+    _openModal(p.name, Lang.t('profileEdit') || 'ערוך פרופיל', true);
+  }
+
+  function _openModal(name, title, showDelete) {
+    document.getElementById('profile-name-input').value = name;
+    document.getElementById('profile-modal-title').textContent = title;
+    _renderAvatarGrid();
+    _syncAgeBtns();
+    // Build action buttons
+    const actions = document.getElementById('profile-modal-actions');
+    actions.innerHTML = `
+      <button class="btn-save"   onclick="ProfilesUI.saveProfile()">${Lang.t('profileSave')||'שמור'}</button>
+      <button class="btn-cancel" onclick="ProfilesUI.closeModal()">${Lang.t('profileCancel')||'ביטול'}</button>
+      ${showDelete ? `<button class="btn-delete" onclick="ProfilesUI.deleteProfile('${_editId}')">${Lang.t('profileDelete')||'מחק'}</button>` : ''}`;
+    document.getElementById('profile-modal').style.display = 'flex';
+    setTimeout(() => document.getElementById('profile-name-input').focus(), 100);
+  }
+
+  function _renderAvatarGrid() {
+    const grid = document.getElementById('profile-avatar-grid');
+    grid.innerHTML = '';
+    Profiles.AVATARS.forEach(a => {
+      const btn     = document.createElement('button');
+      btn.className = 'avatar-pick-btn' + (a === _selectedAvatar ? ' selected' : '');
+      btn.textContent = a;
+      btn.onclick   = () => { _selectedAvatar = a; _renderAvatarGrid(); };
+      grid.appendChild(btn);
+    });
+  }
+
+  function setAge(ag) {
+    _selectedAge = ag;
+    _syncAgeBtns();
+  }
+
+  function _syncAgeBtns() {
+    document.querySelectorAll('#profile-age-row .ob-age-btn').forEach(b => {
+      b.classList.toggle('active', b.dataset.age === _selectedAge);
+    });
+  }
+
+  function saveProfile() {
+    const name = document.getElementById('profile-name-input').value.trim() || 'ילד';
+    if (_editId) {
+      Profiles.update(_editId, { name, avatar: _selectedAvatar, ageGroup: _selectedAge });
+    } else {
+      const p = Profiles.create(name, _selectedAvatar, _selectedAge);
+      if (!p) { closeModal(); return; }
+      if (Profiles.getAll().length === 1) { closeModal(); _selectProfile(p.id); return; }
+    }
+    closeModal();
+    renderSelector();
+  }
+
+  function closeModal() {
+    document.getElementById('profile-modal').style.display = 'none';
+  }
+
+  function deleteProfile(id) {
+    const p = Profiles.getAll().find(pr => pr.id === id);
+    if (!p) return;
+    const msg = Lang.isHe() ? `למחוק את הפרופיל של ${p.name}?` : `Delete ${p.name}'s profile?`;
+    if (!confirm(msg)) return;
+    Profiles.remove(id);
+    closeModal();
+    if (Profiles.getAll().length === 0) { App.showOnboarding(); return; }
+    renderSelector();
+  }
+
+  return { renderSelector, showCreate, showEdit, setAge, saveProfile, closeModal, deleteProfile };
+})();
+
+// ============================================================
 // INIT
 // ============================================================
 window.addEventListener('load', () => {
@@ -1142,11 +1489,33 @@ window.addEventListener('load', () => {
     navigator.serviceWorker.register('./sw.js').catch(() => {});
   }
 
-  if (typeof Lang     !== 'undefined') { Lang.init(); document.documentElement.dir = Lang.isHe() ? 'rtl' : 'ltr'; }
-  if (typeof Theme    !== 'undefined') Theme.init();
-  if (typeof Speech   !== 'undefined') Speech.init();
-  if (typeof Progress !== 'undefined') { Progress.startSession(); document.getElementById('star-count').textContent = Progress.getTotalStars(); }
-  setTimeout(() => { if (typeof Speech !== 'undefined' && typeof Lang !== 'undefined') Speech.speak(Lang.isHe() ? 'שלום! כמה אתה בן?' : 'Hello! How old are you?'); }, 500);
+  if (typeof Lang  !== 'undefined') { Lang.init(); document.documentElement.dir = Lang.isHe() ? 'rtl' : 'ltr'; }
+  if (typeof Theme !== 'undefined') Theme.init();
+  if (typeof Speech !== 'undefined') Speech.init();
+
+  // Phase 10: migrate old single-profile data, then route to the right screen
+  if (typeof Profiles !== 'undefined') {
+    Profiles.migrate();
+    const profiles = Profiles.getAll();
+    if (profiles.length === 0) {
+      // First ever launch — onboarding is already the active screen
+      document.getElementById('star-count').textContent = 0;
+      setTimeout(() => { if (typeof Speech !== 'undefined') Speech.speak(Lang.isHe() ? 'שלום! כמה אתה בן?' : 'Hello! How old are you?'); }, 500);
+    } else if (profiles.length === 1) {
+      // Single profile — skip selector, go straight home
+      Profiles.select(profiles[0].id);
+      Progress.startSession();
+      document.getElementById('star-count').textContent = Progress.getTotalStars();
+      App.show('home');
+    } else {
+      // Multiple profiles — show profile selector
+      document.getElementById('star-count').textContent = 0;
+      App.show('profiles');
+    }
+  } else {
+    // Fallback if Profiles engine failed to load
+    if (typeof Progress !== 'undefined') { Progress.startSession(); document.getElementById('star-count').textContent = Progress.getTotalStars(); }
+  }
 });
 </script>
 </body>

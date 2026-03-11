@@ -82,4 +82,20 @@ const EN = {
   smallWinMsg:     "Let's play an easy game and come back",
   smallWinChoose:  'Choose a game!',
   smallWinBack:    'Back home',
+
+  // Profile Selector (Phase 10)
+  profilesTitle:      'Who is playing?',
+  profileAdd:         '+ Add Child',
+  profileCreate:      'New Profile',
+  profileEdit:        'Edit Profile',
+  profileSave:        'Save',
+  profileCancel:      'Cancel',
+  profileDelete:      'Delete Profile',
+  profileNeverPlayed: 'Never played',
+  profileToday:       'Today',
+  profileYesterday:   'Yesterday',
+  profileSwitch:      'Switch Child',
+  welcomeBackRecent:  'We missed you, {name}! 👋',
+  welcomeBackGap:     "Let's remember where we left off, {name}!",
+  welcomeBackLong:    'Starting fresh, {name}! 🌟',
 };

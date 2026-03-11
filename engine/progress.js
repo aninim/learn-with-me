@@ -1,11 +1,14 @@
 // Progress engine — localStorage adapter
 // Key schema: { letters:{}, numbers:{}, letters_trace:{}, sessions:0, totalStars:0, lastPlayed:0, streak:0, moduleCompletions:{} }
+// Phase 10: key is per-profile (ylmd_profile_{id}) instead of the old global ylmd_progress
 const Progress = (() => {
-  const KEY = 'ylmd_progress';
+  function _key() {
+    return (typeof Profiles !== 'undefined') ? Profiles.progressKey() : 'ylmd_progress';
+  }
 
   function load() {
     try {
-      return JSON.parse(localStorage.getItem(KEY)) || _empty();
+      return JSON.parse(localStorage.getItem(_key())) || _empty();
     } catch {
       return _empty();
     }
@@ -16,7 +19,7 @@ const Progress = (() => {
   }
 
   function save(data) {
-    localStorage.setItem(KEY, JSON.stringify(data));
+    localStorage.setItem(_key(), JSON.stringify(data));
   }
 
   // Record one attempt for a category (e.g. 'letters') and a key (e.g. 'א')
