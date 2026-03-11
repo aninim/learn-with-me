@@ -1,0 +1,16 @@
+# Node
+node_modules/
+
+# Environment
+.env
+.env.local
+
+# Claude local settings
+.claude/
+
+# VS Code
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
