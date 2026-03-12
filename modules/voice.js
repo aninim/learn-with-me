@@ -64,9 +64,12 @@ const VoiceGame = (() => {
     answered = false;
     const item = CONTENT[sessionOrder[currentIdx % sessionOrder.length]];
 
-    // Subject emoji
-    const emoji = document.getElementById('voice-emoji');
-    if (emoji) emoji.textContent = item.emoji;
+    // Subject emoji — enlarged as "picture"
+    const emojiEl = document.getElementById('voice-emoji');
+    if (emojiEl) {
+      emojiEl.textContent  = item.emoji;
+      emojiEl.style.fontSize = 'clamp(7rem,24vw,12rem)';
+    }
 
     // Task label
     const task = document.getElementById('voice-task');
@@ -76,22 +79,23 @@ const VoiceGame = (() => {
     const result = document.getElementById('voice-result');
     if (result) result.style.display = 'none';
 
-    // Build 3 word-bubble choices (correct + 2 distractors)
-    const others   = sessionOrder
+    // Build 3 emoji-bubble choices (correct + 2 distractors) — no written words
+    const others      = sessionOrder
       .filter((_, i) => i !== currentIdx % sessionOrder.length)
       .slice(0, 5);
-    const distractors = _shuffle(others).slice(0, 2)
-      .map(i => CONTENT[i]);
-    const choices = _shuffle([item, ...distractors]);
+    const distractors = _shuffle(others).slice(0, 2).map(i => CONTENT[i]);
+    const choices     = _shuffle([item, ...distractors]);
 
     const bubblesEl = document.getElementById('voice-bubbles');
     if (bubblesEl) {
       bubblesEl.innerHTML = '';
       choices.forEach(c => {
         const btn = document.createElement('button');
-        btn.className = 'voice-bubble';
-        btn.textContent = c.word;
-        btn.onclick = () => _handleChoice(c.spoken === item.spoken, item);
+        btn.className          = 'voice-bubble';
+        btn.style.fontSize     = 'clamp(2rem,8vw,3rem)';
+        btn.dataset.spoken     = c.spoken;
+        btn.textContent        = c.emoji;
+        btn.onclick            = () => _handleChoice(c.spoken === item.spoken, item);
         bubblesEl.appendChild(btn);
       });
     }
@@ -177,8 +181,7 @@ const VoiceGame = (() => {
 
     // Highlight correct bubble
     document.querySelectorAll('.voice-bubble').forEach(btn => {
-      const strip = s => s.replace(/[\u0591-\u05C7]/g, '');
-      if (strip(btn.textContent) === strip(item.word)) {
+      if (btn.dataset.spoken === item.spoken) {
         btn.classList.add(isCorrect ? 'correct' : 'reveal');
       }
     });

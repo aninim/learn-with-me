@@ -159,28 +159,53 @@ const LettersQuiz = (() => {
   function _renderQuestion() {
     answered   = false;
     wrongCount = 0;
-    const target = LETTERS[sessionOrder[currentIdx % sessionOrder.length]];
-    const level  = Math.min(_journeyCount, 2);
+    const target   = LETTERS[sessionOrder[currentIdx % sessionOrder.length]];
+    const level    = Math.min(_journeyCount, 2);
+    const age      = parseInt(localStorage.getItem('ylmd_age') || '0');
+    // Word mode: 5-6yo always; 3-4yo only at hard level
+    const wordMode = age >= 1 || level >= 2;
 
-    if (level >= 2) {
-      // Round 3+: audio only
-      document.getElementById('quiz-letter').textContent = '🎧';
-      document.getElementById('quiz-word').textContent   = Lang.t('listenAndFind');
-      Speech.speak(target.name);
-      setTimeout(() => Speech.speak(target.name), 1800);
-    } else if (level >= 1) {
-      // Round 2: letter only, no word/emoji
-      document.getElementById('quiz-letter').textContent = target.letter;
-      document.getElementById('quiz-word').textContent   = '';
-      Speech.speak(target.name);
+    const letterEl = document.getElementById('quiz-letter');
+    const wordEl   = document.getElementById('quiz-word');
+
+    if (wordMode) {
+      // Show emoji as "picture" + word text → find the first letter
+      if (age >= 1 && level >= 2) {
+        // 5-6yo level 2: audio only
+        letterEl.style.fontSize = 'clamp(5rem,18vw,8rem)';
+        letterEl.textContent    = '🎧';
+        wordEl.style.fontSize   = '';
+        wordEl.textContent      = Lang.t('listenAndFind');
+        Speech.speak(target.word);
+        setTimeout(() => Speech.speak(target.word), 1800);
+      } else {
+        // Show emoji as big "picture"
+        letterEl.style.fontSize = 'clamp(6rem,20vw,10rem)';
+        letterEl.textContent    = target.emoji;
+        // Show word — large
+        const showWord = !(age >= 1 && level >= 1); // 5-6yo level 1: hide word text
+        wordEl.style.fontSize   = 'clamp(1.8rem,6vw,2.8rem)';
+        wordEl.style.color      = 'var(--dark)';
+        wordEl.style.fontFamily = "'Varela Round', sans-serif";
+        wordEl.textContent      = showWord ? target.word : '';
+        const prompt = Lang.isHe() ? 'מה האות הראשונה?' : 'What is the first letter?';
+        Speech.speak(target.word + '. ' + prompt);
+      }
     } else {
-      // Round 1: full hints
-      document.getElementById('quiz-letter').textContent = target.letter;
-      document.getElementById('quiz-word').textContent   = target.emoji + '  ' + target.word;
+      // Letter mode (3-4yo, levels 0–1)
+      letterEl.style.fontSize = '';
+      letterEl.textContent    = target.letter;
+      if (level === 0) {
+        wordEl.style.fontSize = '';
+        wordEl.style.fontFamily = '';
+        wordEl.textContent = target.emoji + '  ' + target.word;
+      } else {
+        wordEl.textContent = '';
+      }
       Speech.speak(target.name);
     }
 
-    // Build 4-choice grid
+    // 4-choice grid — always pick correct letter (first letter in word mode)
     const wrongs  = _shuffle(LETTERS.filter(l => l.letter !== target.letter)).slice(0, 3);
     const choices = _shuffle([target, ...wrongs]);
     const grid    = document.getElementById('letters-choices');

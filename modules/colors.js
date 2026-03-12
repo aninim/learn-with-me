@@ -1,6 +1,8 @@
 // ============================================================
-// COLORS MODULE — Phase 3
-// 8 basic colors in Hebrew, recognition quiz
+// COLORS MODULE
+// Level 0: show color name → pick color swatch
+// Level 1: audio only → pick color swatch
+// Level 2: color mixing — two swatches → pick the result
 // ============================================================
 
 const COLORS_DATA = [
@@ -12,6 +14,15 @@ const COLORS_DATA = [
   { id:'purple', name:'סָגֹל',  hex:'#A78BFA' },
   { id:'pink',   name:'וָרֹד',  hex:'#FF85A1' },
   { id:'black',  name:'שָׁחֹר', hex:'#1A1A2E' },
+];
+
+// Color mixing pairs — all results exist in COLORS_DATA
+const COLOR_MIXES = [
+  { aId:'red',  bId:'yellow', resultId:'orange' },
+  { aId:'red',  bId:'blue',   resultId:'purple' },
+  { aId:'blue', bId:'yellow', resultId:'green'  },
+  { aId:'red',  bId:'white',  resultId:'pink',
+    aHex:'#EF476F', bHex:'#FFFFFF', bNameHe:'לָבָן', bNameEn:'white' },
 ];
 
 const ColorsQuiz = (() => {
@@ -48,62 +59,71 @@ const ColorsQuiz = (() => {
 
   function _renderQuestion() {
     answered = false;
-    const target = COLORS_DATA[sessionOrder[currentIdx % sessionOrder.length]];
-    const level  = Math.min(_journeyCount, 2);
-
+    const level   = Math.min(_journeyCount, 2);
     const display = document.getElementById('color-display');
     const nameEl  = document.getElementById('color-name-label');
+    const grid    = document.getElementById('colors-choices');
+
+    let target;
 
     if (level >= 2) {
-      // Round 3+: Hebrew word only — must match word to color swatch
-      display.textContent       = target.name;
-      display.style.background  = '#FFF9F0';
-      display.style.border      = '3px dashed #ccc';
-      display.style.color       = '#1A1A2E';
-      display.style.fontSize    = 'clamp(2rem, 8vw, 3rem)';
+      // Color mixing
+      const mix    = COLOR_MIXES[Math.floor(Math.random() * COLOR_MIXES.length)];
+      const aColor = mix.aHex || COLORS_DATA.find(c => c.id === mix.aId).hex;
+      const bColor = mix.bHex || COLORS_DATA.find(c => c.id === mix.bId).hex;
+      const aName  = COLORS_DATA.find(c => c.id === mix.aId)?.name || '';
+      const bName  = mix.bNameHe || COLORS_DATA.find(c => c.id === mix.bId)?.name || '';
+      target       = COLORS_DATA.find(c => c.id === mix.resultId);
+
+      // Reshape display div from circle to mixing row
+      display.style.cssText = 'width:min(92vw,340px);height:72px;border-radius:12px;background:transparent;' +
+        'display:flex;align-items:center;gap:0.5rem;margin:0.4rem 0;flex-direction:row;';
+      display.innerHTML =
+        `<div style="flex:1;height:100%;background:${aColor};border-radius:8px;"></div>` +
+        `<div style="font-size:1.8rem;font-weight:800;color:var(--dark);">+</div>` +
+        `<div style="flex:1;height:100%;background:${bColor};border-radius:8px;"></div>` +
+        `<div style="font-size:1.8rem;font-weight:800;color:var(--dark);">=</div>` +
+        `<div style="flex:1;height:100%;background:#e0e0e0;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.8rem;">?</div>`;
       nameEl.textContent = '';
-      Speech.speak(target.name);
-      setTimeout(() => Speech.speak(target.name), 1800);
-    } else if (level >= 1) {
-      // Round 2: colored swatch only — no name text
-      display.textContent       = '';
-      display.style.background  = target.hex;
-      display.style.border      = 'none';
-      display.style.color       = 'transparent';
-      display.style.fontSize    = '1rem';
-      nameEl.textContent = '';
-      Speech.speak(target.name);
+      const q = Lang.isHe()
+        ? `${aName} ועוד ${bName} שווה למה?`
+        : `${aName} and ${bName} make what?`;
+      Speech.speak(q);
+
     } else {
-      // Round 1: colored swatch + Hebrew name below
-      display.textContent       = '';
-      display.style.background  = target.hex;
-      display.style.border      = 'none';
-      display.style.color       = 'transparent';
-      display.style.fontSize    = '1rem';
-      nameEl.textContent = target.name;
-      Speech.speak(target.name);
+      // Name → find color
+      target = COLORS_DATA[sessionOrder[currentIdx % sessionOrder.length]];
+
+      // Reset display to hidden circle
+      display.style.cssText = '';
+      display.textContent   = '';
+      display.style.background = 'transparent';
+      display.style.border     = 'none';
+      display.style.boxShadow  = 'none';
+
+      if (level === 0) {
+        nameEl.textContent   = target.name;
+        nameEl.style.fontSize = 'clamp(2.2rem,8vw,3.2rem)';
+        Speech.speak(target.name);
+      } else {
+        nameEl.textContent = '';
+        Speech.speak(target.name);
+        setTimeout(() => Speech.speak(target.name), 1800);
+      }
     }
 
-    // 4-choice grid — each button is a colored swatch
+    // 4-choice grid — color swatches (no text labels)
     const wrongs  = _shuffle(COLORS_DATA.filter(c => c.id !== target.id)).slice(0, 3);
     const choices = _shuffle([target, ...wrongs]);
-    const grid    = document.getElementById('colors-choices');
     grid.innerHTML = '';
     choices.forEach(item => {
       const btn = document.createElement('button');
-      btn.className            = 'choice-btn';
-      btn.style.background     = item.hex;
-      btn.style.minHeight      = '96px';
-      btn.style.border         = '3px solid rgba(255,255,255,0.3)';
-      btn.dataset.colorId      = item.id;
-      // Level 0: show name label inside swatch
-      if (level === 0) {
-        const span = document.createElement('span');
-        span.style.cssText = 'color:white;font-weight:800;text-shadow:0 1px 3px rgba(0,0,0,0.5);font-size:clamp(0.9rem,3.5vw,1.2rem);';
-        span.textContent = item.name;
-        btn.appendChild(span);
-      }
-      btn.onclick = () => _handleChoice(btn, item.id === target.id, target);
+      btn.className        = 'choice-btn';
+      btn.style.background = item.hex;
+      btn.style.minHeight  = '96px';
+      btn.style.border     = '3px solid rgba(255,255,255,0.3)';
+      btn.dataset.colorId  = item.id;
+      btn.onclick          = () => _handleChoice(btn, item.id === target.id, target);
       grid.appendChild(btn);
     });
   }

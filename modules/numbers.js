@@ -1,24 +1,29 @@
 // ============================================================
-// NUMBERS MODULE — Phase 1 (Quiz)
+// NUMBERS MODULE
+// "How many?" — emoji groups → pick Hebrew word
+// Level 0: emoji group + "כמה?" label → pick word
+// Level 1: emoji group, no label → pick word
+// Level 2: audio only → pick word
 // ============================================================
 
 const NUMBERS = [
   { num:1,  word:'אֶחָד',    emoji:'⭐' },
-  { num:2,  word:'שְׁתַּיִם', emoji:'👀' },
-  { num:3,  word:'שָׁלוֹשׁ',  emoji:'🔺' },
-  { num:4,  word:'אַרְבַּע',  emoji:'🍀' },
-  { num:5,  word:'חָמֵשׁ',   emoji:'🖐️' },
-  { num:6,  word:'שֵׁשׁ',    emoji:'❄️' },
-  { num:7,  word:'שֶׁבַע',   emoji:'🌈' },
-  { num:8,  word:'שְׁמוֹנֶה', emoji:'🕷️' },
-  { num:9,  word:'תֵּשַׁע',   emoji:'🎱' },
-  { num:10, word:'עֶשֶׂר',   emoji:'🔟' },
+  { num:2,  word:'שְׁתַּיִם', emoji:'🍎' },
+  { num:3,  word:'שָׁלוֹשׁ',  emoji:'🌸' },
+  { num:4,  word:'אַרְבַּע',  emoji:'🐸' },
+  { num:5,  word:'חָמֵשׁ',   emoji:'🦋' },
+  { num:6,  word:'שֵׁשׁ',    emoji:'⚽' },
+  { num:7,  word:'שֶׁבַע',   emoji:'🌟' },
+  { num:8,  word:'שְׁמוֹנֶה', emoji:'🎈' },
+  { num:9,  word:'תֵּשַׁע',   emoji:'🍭' },
+  { num:10, word:'עֶשֶׂר',   emoji:'🍕' },
 ];
 
 const NumbersQuiz = (() => {
-  let sessionOrder = [];
-  let currentIdx   = 0;
-  let answered     = false;
+  let sessionOrder  = [];
+  let currentIdx    = 0;
+  let answered      = false;
+  let _journeyCount = 0;
 
   function _shuffle(arr) {
     const a = [...arr];
@@ -28,8 +33,6 @@ const NumbersQuiz = (() => {
     }
     return a;
   }
-
-  let _journeyCount = 0;
 
   function _journeyDone() {
     _journeyCount++;
@@ -48,43 +51,52 @@ const NumbersQuiz = (() => {
     _renderQuestion();
   }
 
+  function _emojiGroup(num, emoji) {
+    const items = Array(num).fill(emoji);
+    if (num <= 5) {
+      return `<div style="font-size:clamp(2.4rem,8vw,3.4rem);line-height:1.8;letter-spacing:0.15em">${items.join(' ')}</div>`;
+    }
+    // 6–10: two rows of 5
+    const row1 = items.slice(0, 5).join(' ');
+    const row2 = items.slice(5).join(' ');
+    return `<div style="font-size:clamp(2rem,6vw,2.8rem);line-height:1.8;letter-spacing:0.1em">${row1}</div>`
+         + `<div style="font-size:clamp(2rem,6vw,2.8rem);line-height:1.6;letter-spacing:0.1em">${row2}</div>`;
+  }
+
   function _renderQuestion() {
     answered = false;
-    const target = NUMBERS[sessionOrder[currentIdx % sessionOrder.length]];
-    const level  = Math.min(_journeyCount, 2);
+    const target   = NUMBERS[sessionOrder[currentIdx % sessionOrder.length]];
+    const level    = Math.min(_journeyCount, 2);
+    const display  = document.getElementById('num-display');
+    const emojisEl = document.getElementById('num-emojis');
+    const wordEl   = document.getElementById('num-word');
 
     if (level >= 2) {
-      // Round 3+: audio only
-      document.getElementById('num-display').textContent = '🎧';
-      document.getElementById('num-emojis').textContent  = '';
-      document.getElementById('num-word').textContent    = Lang.t('listenAndFind');
+      display.innerHTML    = '<span style="font-size:clamp(5rem,18vw,8rem)">🎧</span>';
+      emojisEl.textContent = '';
+      wordEl.textContent   = Lang.t('listenAndFind');
       Speech.speak(target.word);
       setTimeout(() => Speech.speak(target.word), 1800);
-    } else if (level >= 1) {
-      // Round 2: number only, no emojis or word
-      document.getElementById('num-display').textContent = target.num;
-      document.getElementById('num-emojis').textContent  = '';
-      document.getElementById('num-word').textContent    = '';
-      Speech.speak(target.word);
     } else {
-      // Round 1: full hints
-      document.getElementById('num-display').textContent = target.num;
-      document.getElementById('num-emojis').textContent  = (target.emoji + ' ').repeat(target.num).trim();
-      document.getElementById('num-word').textContent    = target.word;
+      display.innerHTML    = _emojiGroup(target.num, target.emoji);
+      emojisEl.textContent = '';
+      wordEl.textContent   = level === 0 ? (Lang.isHe() ? 'כַּמָּה?' : 'How many?') : '';
       Speech.speak(target.word);
     }
 
-    // 4-choice grid
+    // 4-choice grid — Hebrew words
     const wrongs  = _shuffle(NUMBERS.filter(n => n.num !== target.num)).slice(0, 3);
     const choices = _shuffle([target, ...wrongs]);
     const grid    = document.getElementById('numbers-choices');
     grid.innerHTML = '';
     choices.forEach(item => {
       const btn = document.createElement('button');
-      btn.className   = 'choice-btn';
-      btn.style.fontSize = '2.2rem';
-      btn.textContent = item.num;
-      btn.onclick     = () => _handleChoice(btn, item.num === target.num, target);
+      btn.className          = 'choice-btn';
+      btn.style.fontSize     = 'clamp(1.3rem,5vw,2rem)';
+      btn.style.fontFamily   = "'Varela Round', sans-serif";
+      btn.dataset.num        = item.num;
+      btn.textContent        = item.word;
+      btn.onclick            = () => _handleChoice(btn, item.num === target.num, target);
       grid.appendChild(btn);
     });
   }
@@ -106,12 +118,12 @@ const NumbersQuiz = (() => {
     } else {
       btn.classList.add('wrong');
       Progress.record('numbers', String(target.num), false);
-      Claude.trackWrong('numbers', String(target.num), String(target.num));
+      Claude.trackWrong('numbers', String(target.num), target.word);
       Speech.speak(Lang.ta());
       setTimeout(() => {
         btn.classList.remove('wrong');
         document.querySelectorAll('#numbers-choices .choice-btn').forEach(b => {
-          if (b.textContent === String(target.num)) b.classList.add('correct');
+          if (b.dataset.num === String(target.num)) b.classList.add('correct');
         });
         setTimeout(() => {
           document.querySelectorAll('#numbers-choices .choice-btn').forEach(b => b.classList.remove('correct'));
