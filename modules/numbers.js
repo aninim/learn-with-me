@@ -75,13 +75,13 @@ const NumbersQuiz = (() => {
       display.innerHTML    = '<span style="font-size:clamp(5rem,18vw,8rem)">🎧</span>';
       emojisEl.textContent = '';
       wordEl.textContent   = Lang.t('listenAndFind');
-      Speech.speak(target.word);
-      setTimeout(() => Speech.speak(target.word), 1800);
+      setTimeout(() => Speech.speak(target.word), 700);
+      setTimeout(() => Speech.speak(target.word), 3200);
     } else {
       display.innerHTML    = _emojiGroup(target.num, target.emoji);
       emojisEl.textContent = '';
       wordEl.textContent   = level === 0 ? (Lang.isHe() ? 'כַּמָּה?' : 'How many?') : '';
-      Speech.speak(target.word);
+      setTimeout(() => Speech.speak(target.word), 700);
     }
 
     // 4-choice grid — Hebrew words

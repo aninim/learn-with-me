@@ -104,8 +104,8 @@ const VoiceGame = (() => {
     _setMicState('idle');
 
     // Auto-play TTS and start listening
-    Speech.speak(item.word);
-    setTimeout(() => _startListening(item), 1200);
+    setTimeout(() => Speech.speak(item.word), 700);
+    setTimeout(() => _startListening(item), 1800);
   }
 
   function _setMicState(state) {

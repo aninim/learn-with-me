@@ -176,8 +176,8 @@ const LettersQuiz = (() => {
         letterEl.textContent    = '🎧';
         wordEl.style.fontSize   = '';
         wordEl.textContent      = Lang.t('listenAndFind');
-        Speech.speak(target.word);
-        setTimeout(() => Speech.speak(target.word), 1800);
+        setTimeout(() => Speech.speak(target.word), 700);
+        setTimeout(() => Speech.speak(target.word), 3200);
       } else {
         // Show emoji as big "picture"
         letterEl.style.fontSize = 'clamp(6rem,20vw,10rem)';
@@ -189,7 +189,7 @@ const LettersQuiz = (() => {
         wordEl.style.fontFamily = "'Varela Round', sans-serif";
         wordEl.textContent      = showWord ? target.word : '';
         const prompt = Lang.isHe() ? 'מה האות הראשונה?' : 'What is the first letter?';
-        Speech.speak(target.word + '. ' + prompt);
+        setTimeout(() => Speech.speak(target.word + '. ' + prompt), 700);
       }
     } else {
       // Letter mode (3-4yo, levels 0–1)
@@ -202,7 +202,7 @@ const LettersQuiz = (() => {
       } else {
         wordEl.textContent = '';
       }
-      Speech.speak(target.name);
+      setTimeout(() => Speech.speak(target.name), 700);
     }
 
     // 4-choice grid — always pick correct letter (first letter in word mode)

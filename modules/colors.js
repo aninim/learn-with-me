@@ -88,7 +88,7 @@ const ColorsQuiz = (() => {
       const q = Lang.isHe()
         ? `${aName} ועוד ${bName} שווה למה?`
         : `${aName} and ${bName} make what?`;
-      Speech.speak(q);
+      setTimeout(() => Speech.speak(q), 700);
 
     } else {
       // Name → find color
@@ -102,13 +102,13 @@ const ColorsQuiz = (() => {
       display.style.boxShadow  = 'none';
 
       if (level === 0) {
-        nameEl.textContent   = target.name;
+        nameEl.textContent    = target.name;
         nameEl.style.fontSize = 'clamp(2.2rem,8vw,3.2rem)';
-        Speech.speak(target.name);
+        setTimeout(() => Speech.speak(target.name), 700);
       } else {
         nameEl.textContent = '';
-        Speech.speak(target.name);
-        setTimeout(() => Speech.speak(target.name), 1800);
+        setTimeout(() => Speech.speak(target.name), 700);
+        setTimeout(() => Speech.speak(target.name), 3200);
       }
     }
 

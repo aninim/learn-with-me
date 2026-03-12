@@ -82,14 +82,14 @@ const ShapesQuiz = (() => {
       display.textContent  = '🎧';
       display.style.color  = 'var(--dark)';
       display.style.fontSize = 'clamp(5rem,18vw,8rem)';
-      Speech.speak(target.name);
-      setTimeout(() => Speech.speak(target.name), 1800);
+      setTimeout(() => Speech.speak(target.name), 700);
+      setTimeout(() => Speech.speak(target.name), 3200);
     } else {
       display.textContent  = target.name;
       display.style.color  = 'var(--dark)';
       display.style.fontSize = 'clamp(2.2rem,8vw,3.2rem)';
       display.style.fontFamily = "'Varela Round', sans-serif";
-      Speech.speak((Lang.isHe() ? 'מצא: ' : 'Find: ') + target.name);
+      setTimeout(() => Speech.speak((Lang.isHe() ? 'מצא: ' : 'Find: ') + target.name), 700);
     }
 
     // 4-choice grid — shape characters

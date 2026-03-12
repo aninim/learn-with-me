@@ -131,7 +131,7 @@ const MathQuiz = (() => {
       display.innerHTML = `<div style="font-size:clamp(2rem,8vw,3rem);letter-spacing:0.1em;">${grp}</div>`
         + `<div style="font-size:1.1rem;color:var(--text-muted);margin-top:0.3rem;">${Lang.isHe() ? 'כַּמָּה?' : 'How many?'}</div>`;
     } else if (_question.type === 'add' && _question.countA !== undefined) {
-      // Emoji groups for addition
+      // Emoji groups for addition + equation line
       const em   = _question.displayEmoji;
       const grpA = Array(_question.countA).fill(em).join(' ');
       const grpB = Array(_question.countB).fill(em).join(' ');
@@ -140,7 +140,7 @@ const MathQuiz = (() => {
         `<div style="font-size:${fs};line-height:1.8;letter-spacing:0.1em">${grpA}</div>` +
         `<div style="font-size:clamp(2rem,7vw,3rem);font-weight:800;margin:0.1rem 0;line-height:1.2">+</div>` +
         `<div style="font-size:${fs};line-height:1.8;letter-spacing:0.1em">${grpB}</div>` +
-        `<div style="font-size:1.1rem;color:var(--text-muted);margin-top:0.3rem">${Lang.isHe() ? 'כַּמָּה בְּסַךְ הַכֹּל?' : 'How many in total?'}</div>`;
+        `<div style="font-size:clamp(1.6rem,6vw,2.4rem);font-family:'Varela Round',sans-serif;font-weight:700;margin-top:0.3rem">${_question.countA} + ${_question.countB} = ?</div>`;
     } else {
       display.innerHTML = `<div style="font-size:clamp(2.2rem,8vw,3.5rem);font-family:'Varela Round',sans-serif;">${_question.equation}</div>`;
     }
