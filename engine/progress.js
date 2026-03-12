@@ -87,5 +87,5 @@ const Progress = (() => {
     save(d);
   }
 
-  return { record, getAccuracy, getTotalStars, getSessions, getStreak, getModuleCompletions, recordModuleCompletion, startSession };
+  return { load, record, getAccuracy, getTotalStars, getSessions, getStreak, getModuleCompletions, recordModuleCompletion, startSession };
 })();
