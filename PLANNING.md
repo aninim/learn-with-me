@@ -6,24 +6,23 @@
 ---
 
 ## Current Version
-**v1.0** — stable (2026-03-12)
-- Phase 10 Child Profiles: per-profile localStorage, Profile Selector, welcome-back tiers, v0.9 migration
-- All 6 activity modules redesigned — age-tiered UX, emoji-first, no reading required:
-  - Letters: 5–6yo word+emoji → first letter; 3–4yo big letter → word mode as hard
-  - Numbers: emoji groups (split 5+5 for 6–10) → pick Hebrew word
-  - Shapes: 12 shapes (6 basic + 6 intermediate), name → pick shape char
-  - Colors: name → pick swatch; level 2 color mixing equation
-  - Math: tier 1 shows emoji groups per operand alongside equation
-  - Voice: emoji bubbles (no word text); larger picture emoji
-- Bug fixes: Progress.load() export, CSS merge conflicts, lang screen removed
-- Widescreen breakpoints (640px / 960px)
+**v1.1** — stable (2026-03-12)
+- Memory Match fully redesigned per PDD_MemoryMatch_v1.1.md:
+  - Band A (ages 3–4): identical animal pairs, 2×3 grid (6 cards), 8 jungle animals
+  - Band B (ages 5–6): associative pairs — letter ↔ emoji+word, 3×4 grid (12 cards), full 22-letter alphabet
+  - 3D card flip (300ms rotateY), 250ms mismatch window (passive learning moment)
+  - Matched pairs stay visible at 70% opacity + green glow (M-10)
+  - Auto-solve after 4 misses on same pair ("הִנֵּה הֵם!")
+  - Peek hint 🔍 (Band B only) — reveals 1 card 800ms; pulses after 8s inactivity
+  - Star rating on win overlay (⭐/⭐⭐/⭐⭐⭐ based on flip efficiency)
+  - Per-pair spaced repetition via Progress.record()
+- v1.0 base: Phase 10 Child Profiles + all 6 modules redesigned (age-tiered, emoji-first)
 
 ---
 
 ## Active Feature
-**Module Polish + Memory Game redesign** (2026-03-12)
-- Pending: Memory game redesign (Oren to brief vision)
-- Pending: Engineering → Nature module rename/redesign
+**Engineering → Nature module rename/redesign** (2026-03-12)
+- Pending: Engineering → Nature rename (content swap, label update)
 - Next major phase: Phase 11 — Spaced Repetition (SM2)
 
 ---
@@ -42,6 +41,7 @@
 | 7 — English Toggle | Fully wired | ✅ Done |
 | 8 — Distribution | PWA shell exists, GitHub Pages not set up | ⚠️ Partial |
 | 9 — Memory Match + Voice Game | New modules, home redesign, theme/progress engine | ✅ Done |
+| Memory Match v1.1 | Full redesign per PDD — Band A/B, 3D flip, mismatch window, auto-solve, peek hint, stars | ✅ Done (2026-03-12) |
 | 13 — Immersive Worlds | Sky gradients, mascot/particle animations, glow/depth | ✅ Done (2026-03-10) |
 | **10 — Child Profiles** | Per-profile localStorage, Profile Selector screen, welcome-back tiers | ✅ Done |
 | 11 — Spaced Repetition | SM2-style scheduling, replaces 2× weighting | 🔲 Backlog |
@@ -102,8 +102,9 @@
 | 2026-03-11 | v0.9+ | All JS files recovered + in git. 7–8 age pill removed. Docs updated. App to standalone repo. |
 | 2026-03-11 | v1.0 | Child Profiles (Phase 10) — profiles engine, selector screen, welcome-back tiers, data migration |
 | 2026-03-12 | v1.0 | All 6 modules redesigned — age-tiered UX, emoji-first, no reading required |
-| TBD | v1.1 | Memory game redesign + Engineering→Nature rename |
-| TBD | v1.2 | Phase 11 Spaced Repetition (SM2) |
+| 2026-03-12 | v1.1 | Memory Match redesigned per PDD v1.1 — Band A/B, 3D flip, mismatch window, auto-solve, peek hint, star rating |
+| TBD | v1.2 | Engineering → Nature rename/redesign |
+| TBD | v1.3 | Phase 11 Spaced Repetition (SM2) |
 | TBD | v1.3 | Full offline caching, GitHub Pages |
 
 ---

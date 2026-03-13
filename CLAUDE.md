@@ -9,7 +9,7 @@
 
 **Name:** Learn With Me
 **Owner:** Oren Elimelech — Father of 3, Petach Tikva, Israel
-**Status:** v0.9 stable — Phases 1–3 + Bonus + Memory Match + Voice Game + Phase 13 (Immersive Worlds) complete. BUG-01, BUG-02, AUDIO-01 resolved. All engine/module JS files recovered and in git.
+**Status:** v1.1 stable — Phase 10 (Child Profiles), all 6 modules redesigned (age-tiered, emoji-first), Memory Match v1.1 (PDD redesign). All engine/module JS files in git.
 **Goal:** A free, offline-capable Hebrew early education app for ages 3–6. Replaces cheap commercial toys (WinFun et al.) with adaptive, AI-powered, touch/camera/gamepad-native learning. Shareable as a single HTML file or hosted on GitHub Pages.
 
 ---
@@ -86,7 +86,10 @@
 | **8 — Distribution** | manifest.json + sw.js exist, GitHub Pages not set up | ⚠️ Partial |
 | **9 — Memory Match + Voice Game** | 2 new modules, home redesign, theme/progress engine, tracing improvements | ✅ Done |
 | **13 — Immersive Worlds** | Sky gradients, theme mascot animations, particle behaviors, glow/depth | ✅ Done (2026-03-10) |
-| **10 — Child Profiles** | profiles.json sidecar + GDrive sync, Profile Selector screen | 🔲 Next |
+| **10 — Child Profiles** | Per-profile localStorage, Profile Selector screen, welcome-back tiers, v0.9 migration | ✅ Done |
+| **Memory Match v1.1** | Full PDD redesign — Band A/B, 3D flip, auto-solve, peek hint, star rating | ✅ Done (2026-03-12) |
+| **Engineering → Nature** | Rename + content swap | 🔲 Next |
+| **11 — Spaced Repetition** | SM2-style scheduling, replaces 2× weighting | 🔲 Backlog |
 
 ---
 
@@ -411,9 +414,11 @@ Oren is a father of 3 boys, based in Petach Tikva. Background in Product Managem
 | Mar 2026 | v0.9: Memory Match + Voice Game modules added. Home redesign: age pills, stat chips, themed bg, mod-dot completion indicators. Theme engine: per-theme praise. Progress engine: streak/sessions/moduleCompletions. Tracing: phase pills + nikud toggle + letter chip strip. All 9 modules track journey completions. |
 | 2026-03-10 | Phase 13: Immersive Worlds complete — GAP-03–06 resolved. BUG-01, BUG-02, AUDIO-01 fixed. |
 | 2026-03-11 | All 9 missing engine/module JS files recovered (speech.js, input.js, adaptive.js, claude.js, numbers.js, shapes.js, colors.js, math.js, engineering.js). Merge conflicts resolved. 7–8 age pill removed. App moving to standalone repo. |
-| TBD | v1.0: Child Profiles (Phase 10) |
-| TBD | v1.1: MediaPipe Hands — finger counting + gesture control |
-| TBD | v1.2: Full offline caching, GitHub Pages |
+| 2026-03-11 | v1.0: Child Profiles (Phase 10) — profiles engine, selector screen, welcome-back tiers |
+| 2026-03-12 | v1.0+: All 6 modules redesigned — age-tiered UX, emoji-first, speech delays polished |
+| 2026-03-12 | v1.1: Memory Match redesigned per PDD v1.1 — Band A/B, 3D flip, auto-solve, peek hint, star rating |
+| TBD | v1.2: Engineering → Nature rename |
+| TBD | v1.3: Phase 11 Spaced Repetition (SM2) |
 
 ---
 
