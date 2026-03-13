@@ -85,7 +85,7 @@
     .btn-shapes      { background: #A78BFA;                                    color: white; }
     .btn-colors      { background: linear-gradient(135deg,#FF6B35,#FFD166,#06D6A0,#A78BFA); color: white; }
     .btn-math        { background: #FF4F8B;                                    color: white; }
-    .btn-engineering { background: #26A69A;                                    color: white; }
+    .btn-physics     { background: linear-gradient(135deg,#00B4A6,#26A69A);    color: white; }
     .btn-trace       { background: var(--yellow);                              color: var(--dark); }
     .settings-gear   { margin-top: 0.7rem; background: none; border: none; font-size: 1.4rem; cursor: pointer; opacity: 0.4; transition: opacity 0.2s; }
     .settings-gear:hover { opacity: 0.8; }
@@ -152,9 +152,155 @@
     .math-question-text{ font-size: clamp(1.4rem, 5vw, 2rem); color: var(--text-muted); margin-top: 0.3rem; }
     .math-equation     { font-size: clamp(3rem, 12vw, 5.5rem); line-height: 1.1; }
 
-    /* ---- ENGINEERING QUIZ ---- */
-    .engineering-display { font-size: clamp(6rem, 20vw, 9rem); line-height: 1; margin: 0.2rem 0 0.1rem; text-align: center; color: var(--dark); }
-    .engineering-label   { font-family: 'Varela Round', sans-serif; font-size: clamp(1.4rem, 5vw, 2rem); color: var(--dark); min-height: 2.4rem; margin-bottom: 0.4rem; text-align: center; }
+    /* ---- PHYSICS HUB ---- */
+    .ph-hub-list  { width: min(92vw,380px); display:flex; flex-direction:column; gap:0.6rem; margin-top:0.5rem; }
+    .ph-hub-row   { display:flex; align-items:center; gap:0.7rem; min-height:64px; padding:0 1rem;
+                    border:none; border-radius:14px; background:var(--bg-surface);
+                    box-shadow:0 2px 8px rgba(0,0,0,0.13); cursor:pointer; transition:transform 0.12s;
+                    width:100%; font-family:'Varela Round',sans-serif; }
+    .ph-hub-row:active { transform:scale(0.96); }
+    .ph-locked    { opacity:0.45; cursor:not-allowed; }
+    .ph-hub-icon  { font-size:2rem; flex-shrink:0; }
+    .ph-hub-label { font-size:clamp(1rem,4vw,1.25rem); color:var(--dark); flex:1; text-align:start; }
+    .ph-hub-bar   { width:80px; height:10px; background:rgba(0,0,0,0.12); border-radius:99px; overflow:hidden; flex-shrink:0; }
+    .ph-hub-fill  { height:100%; background:var(--teal); border-radius:99px; transition:width 0.4s; }
+    .ph-hub-lock  { font-size:1.2rem; flex-shrink:0; }
+    .ph-hub-arrow { font-size:1rem; color:var(--text-muted); flex-shrink:0; }
+
+    /* ---- PHYSICS QUIZ ---- */
+    .ph-quiz-title { font-family:'Varela Round',sans-serif; font-size:clamp(1.2rem,5vw,1.6rem);
+                     color:var(--dark); margin-bottom:0.3rem; }
+    .ph-scene      { position:relative; width:min(92vw,360px); height:220px; border-radius:16px;
+                     background:linear-gradient(180deg,#e8f4fb,#f8f8f0); margin:0.4rem 0;
+                     overflow:hidden; display:flex; align-items:flex-start; justify-content:center; flex-shrink:0; }
+    .ph-canvas     { position:absolute; inset:0; pointer-events:none; }
+    .ph-prompt     { font-family:'Varela Round',sans-serif; font-size:clamp(1rem,4vw,1.3rem);
+                     color:var(--dark); text-align:center; max-width:min(92vw,360px);
+                     min-height:2.2rem; margin-bottom:0.3rem; }
+    .ph-try-again  { color:var(--orange); font-weight:700; }
+
+    /* Scene objects */
+    .ph-scene-obj   { font-size:3.5rem; line-height:1; padding:0.2rem; will-change:transform; }
+    .ph-scene-anchor{ font-size:3rem; position:absolute; top:10px; }
+    .ph-scene-ground{ position:absolute; bottom:0; left:0; right:0; height:14px;
+                      background:linear-gradient(#8B6914,#6B4F12); border-radius:0 0 16px 16px; }
+    .ph-obj-row     { display:flex; gap:1.5rem; align-items:center; justify-content:center;
+                      padding-top:1.5rem; }
+
+    /* Balance */
+    .ph-balance     { display:flex; align-items:flex-end; justify-content:center; gap:0.5rem;
+                      padding-top:1.5rem; width:100%; }
+    .ph-balance-obj { font-size:2.8rem; }
+    .ph-balance-beam{ font-size:3.5rem; will-change:transform; }
+
+    /* Water drag */
+    .ph-water-shelf { display:flex; gap:1rem; justify-content:center; padding:0.6rem 1rem;
+                      background:rgba(255,255,255,0.6); border-radius:12px 12px 0 0;
+                      position:absolute; top:0; left:0; right:0; z-index:2; }
+    .ph-water-item  { font-size:2.2rem; cursor:grab; user-select:none; touch-action:none; transition:opacity 0.15s; }
+    .ph-water-item:active { cursor:grabbing; }
+    .ph-water-zone  { position:absolute; bottom:0; left:0; right:0; height:110px;
+                      background:linear-gradient(180deg,rgba(135,206,235,0.7),rgba(30,100,180,0.5));
+                      border-radius:0 0 16px 16px; overflow:hidden; z-index:1; }
+    .ph-water-surface{ font-size:1.2rem; text-align:center; opacity:0.5; letter-spacing:0.5rem; }
+    @keyframes waterSurface { 0%,100%{transform:scaleX(1.02) translateX(-1%)} 50%{transform:scaleX(0.98) translateX(1%)} }
+    .physics-water-surface { animation:waterSurface 3s ease-in-out infinite; }
+    @keyframes ph-float-bob-anim { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+    .ph-float-bob { animation:ph-float-bob-anim 2s ease-in-out infinite; }
+
+    /* Shadow interactive */
+    .ph-sun        { position:absolute; font-size:3rem; cursor:grab; will-change:transform; touch-action:none; z-index:4; }
+    .ph-shadow-obj { position:absolute; bottom:22px; left:50%; transform:translateX(-50%); font-size:3rem; z-index:3; }
+    .ph-shadow     { position:absolute; background:rgba(0,0,0,0.3); width:40px; height:14px;
+                     border-radius:50%; filter:blur(4px); will-change:transform,opacity; z-index:2; }
+    .ph-sky-obj    { pointer-events:none; }
+
+    /* Rainbow */
+    .ph-rainbow-wrapper { position:absolute; bottom:14px; left:0; right:0; }
+    .ph-rainbow-arc { position:absolute; left:5%; right:5%; border-radius:999px 999px 0 0;
+                      clip-path:inset(0 100% 0 0); animation:arcReveal 0.3s ease-out forwards; }
+    .ph-rainbow-arc.rtl-sweep { clip-path:inset(0 0 0 100%); animation-name:arcRevealRTL; }
+    @keyframes arcReveal    { from{clip-path:inset(0 100% 0 0)} to{clip-path:inset(0 0% 0 0)} }
+    @keyframes arcRevealRTL { from{clip-path:inset(0 0 0 100%)} to{clip-path:inset(0 0 0 0%)} }
+
+    /* Magnet */
+    .ph-magnet      { font-size:3.5rem; position:absolute; top:15px; left:50%; transform:translateX(-50%); }
+    .ph-magnet-flip { transform:translateX(-50%) scaleX(-1); }
+    .ph-mag-shelf   { display:flex; gap:1.2rem; justify-content:center; align-items:flex-end;
+                      position:absolute; bottom:20px; width:100%; z-index:2; }
+    .ph-mag-item    { font-size:2.2rem; }
+    .ph-mag-poles-row { display:flex; gap:2rem; justify-content:center; padding-top:1.5rem; width:100%; }
+    @keyframes ph-vibrate-anim { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+    .ph-vibrate { animation:ph-vibrate-anim 0.08s linear 4; }
+    @keyframes ph-magnet-glow-kf { 0%,100%{box-shadow:none} 50%{box-shadow:0 0 18px 6px #00B4A6} }
+    .ph-magnet-glow { animation:ph-magnet-glow-kf 0.6s ease-in-out 2; }
+
+    /* Sound waves */
+    .ph-speaker  { position:absolute; top:20px; left:50%; transform:translateX(-50%); font-size:3rem; }
+    .ph-fig-row  { display:flex; gap:1.5rem; align-items:flex-end; justify-content:center;
+                   position:absolute; bottom:20px; width:100%; }
+    .ph-fig      { font-size:2rem; }
+    .ph-fig-close{ font-size:2.4rem; }
+
+    /* Check button */
+    .ph-check-btn { min-height:56px; min-width:160px; border:none; border-radius:14px;
+                    background:var(--teal); color:white; font-family:'Varela Round',sans-serif;
+                    font-size:1.3rem; font-weight:700; cursor:pointer; transition:all 0.15s;
+                    box-shadow:0 3px 12px rgba(0,0,0,0.2); margin-top:0.4rem; }
+    .ph-check-btn:disabled { opacity:0.35; cursor:not-allowed; transform:none; }
+    .ph-check-btn:not(:disabled):active { transform:scale(0.94); }
+    .ph-done-btn { grid-column:1/-1; background:var(--teal); color:white; }
+
+    /* Choices reveal states */
+    .ph-choice.selected      { border-color:var(--teal); background:rgba(0,180,166,0.12); }
+    .ph-choice.reveal-correct{ background:var(--green); border-color:var(--green); color:white; }
+    .ph-choice.reveal-wrong  { background:var(--red);   border-color:var(--red);   color:white; opacity:0.5; }
+    .ph-ch-icon  { font-size:1.8rem; display:block; }
+    .ph-ch-label { font-size:0.85rem; display:block; margin-top:0.2rem; }
+
+    /* Hint bubble */
+    .ph-hint-bubble { display:flex; gap:0.6rem; align-items:flex-start; max-width:min(92vw,360px);
+                      background:rgba(255,209,102,0.15); border:2px solid var(--yellow);
+                      border-radius:16px; padding:0.8rem 1rem; font-size:1rem;
+                      font-family:'Rubik',sans-serif; color:var(--dark); text-align:start;
+                      margin-top:0.3rem; }
+    .ph-hint-avatar { font-size:1.6rem; flex-shrink:0; }
+
+    /* Fact card */
+    .ph-fact-card  { width:min(92vw,360px); background:var(--bg-surface);
+                     border-radius:16px; padding:1rem 1.2rem; box-shadow:0 4px 16px rgba(0,0,0,0.14);
+                     display:flex; flex-direction:column; gap:0.6rem; margin-top:0.3rem; }
+    .ph-fact-text  { font-family:'Varela Round',sans-serif; font-size:clamp(1rem,4vw,1.2rem);
+                     color:var(--dark); text-align:center; }
+    .ph-parent-prompt { display:flex; gap:0.5rem; align-items:flex-start;
+                        background:rgba(0,0,0,0.04); border-radius:12px; padding:0.6rem 0.8rem;
+                        font-size:0.9rem; color:var(--text-muted); text-align:start; cursor:pointer; }
+    .ph-next-btn   { min-height:52px; border:none; border-radius:12px; background:var(--orange);
+                     color:white; font-family:'Varela Round',sans-serif; font-size:1.1rem;
+                     font-weight:700; cursor:pointer; transition:transform 0.12s; }
+    .ph-next-btn:active { transform:scale(0.94); }
+
+    /* Physics gravity fall keyframes */
+    @keyframes physicsGravityFall {
+      0%   { transform:translateY(0)     rotate(0deg)  scaleX(1)    scaleY(1); }
+      5%   { transform:translateY(0)     rotate(0deg)  scaleX(1.05) scaleY(1.05); }
+      55%  { transform:translateY(140px) rotate(10deg) scaleX(1.05) scaleY(1.05); }
+      65%  { transform:translateY(170px) rotate(12deg) scaleX(1.2)  scaleY(0.85); }
+      75%  { transform:translateY(145px) rotate(8deg)  scaleX(1.0)  scaleY(1.0); }
+      85%  { transform:translateY(170px) rotate(6deg)  scaleX(1.05) scaleY(0.95); }
+      92%  { transform:translateY(160px) rotate(4deg)  scaleX(1.0)  scaleY(1.0); }
+      97%  { transform:translateY(170px) rotate(2deg); }
+      100% { transform:translateY(170px) rotate(0deg)  scaleX(1)    scaleY(1); }
+    }
+    .physics-falling { animation:physicsGravityFall 1.0s cubic-bezier(0.4,0,0.6,1) forwards; }
+    @keyframes ph-feather-fall {
+      0%   { transform:translateY(0)    rotate(0deg); }
+      20%  { transform:translateY(30px) rotate(-10deg); }
+      40%  { transform:translateY(70px) rotate(8deg); }
+      60%  { transform:translateY(110px) rotate(-6deg); }
+      80%  { transform:translateY(145px) rotate(4deg); }
+      100% { transform:translateY(165px) rotate(0deg); }
+    }
 
     /* ---- Journey bar (road-style) ---- */
     .journey-bar  { width: min(88vw, 340px); margin-bottom: 0.5rem; }
@@ -884,10 +1030,10 @@
         <span class="label" data-i18n="math">חשבון</span>
         <div class="mod-dots" data-module="math"></div>
       </button>
-      <button class="module-btn btn-engineering" onclick="App.show('engineering-quiz')">
-        <span class="icon">🔧</span>
-        <span class="label" data-i18n="engineering">הנדסה</span>
-        <div class="mod-dots" data-module="engineering"></div>
+      <button class="module-btn btn-physics" onclick="App.show('physics-hub')">
+        <span class="icon">🔬</span>
+        <span class="label" data-i18n="physics">פיזיקה וטבע</span>
+        <div class="mod-dots" data-module="physics"></div>
       </button>
       <button class="module-btn btn-trace" style="grid-column:1/-1;" onclick="App.show('letters-trace')">
         <span class="icon">✍️</span>
@@ -1011,13 +1157,36 @@
   <div class="choices-grid" id="math-choices"></div>
 </div>
 
-<!-- ============================================================ ENGINEERING QUIZ ============================================================ -->
-<div class="screen" id="screen-engineering-quiz">
+<!-- ============================================================ PHYSICS HUB ============================================================ -->
+<div class="screen" id="screen-physics-hub">
   <button class="back-btn" onclick="App.show('home')">←</button>
-  <div class="journey-bar" id="engineering-journey"></div>
-  <div class="engineering-display" id="engineering-display"></div>
-  <div class="engineering-label"  id="engineering-label"></div>
-  <div class="choices-grid" id="engineering-choices"></div>
+  <div class="ph-quiz-title" style="font-size:1.5rem;margin-top:0.2rem;">🔬 <span data-i18n="physics">פיזיקה וטבע</span></div>
+  <div class="ph-hub-list" id="physics-hub-list"></div>
+</div>
+
+<!-- ============================================================ PHYSICS QUIZ ============================================================ -->
+<div class="screen" id="screen-physics-quiz">
+  <button class="back-btn" onclick="Physics.cleanup();App.show('physics-hub')">←</button>
+  <div class="journey-bar" id="physics-journey"></div>
+  <div class="ph-quiz-title" id="physics-quiz-title"></div>
+  <div class="ph-scene" id="physics-scene"></div>
+  <div class="ph-prompt" id="physics-prompt"></div>
+  <div class="choices-grid" id="physics-choices"></div>
+  <button class="ph-check-btn" id="physics-check-btn" style="display:none">בדוק!</button>
+  <!-- Hint bubble (Band B, 2nd wrong) -->
+  <div class="ph-hint-bubble" id="physics-hint-bubble" style="display:none">
+    <span class="ph-hint-avatar">🌟</span>
+    <span id="physics-hint-text"></span>
+  </div>
+  <!-- Fact card -->
+  <div class="ph-fact-card" id="physics-fact-card" style="display:none">
+    <div class="ph-fact-text" id="physics-fact-text"></div>
+    <div class="ph-parent-prompt" id="physics-parent-prompt" style="display:none" onclick="this.style.display='none'">
+      <span>👨‍👩‍👧</span>
+      <span id="physics-parent-text"></span>
+    </div>
+    <button class="ph-next-btn" id="physics-next-btn">השאלה הבאה ◀</button>
+  </div>
 </div>
 
 <!-- ============================================================ MEMORY MATCH ============================================================ -->
@@ -1091,7 +1260,8 @@
 <script src="modules/shapes.js"></script>
 <script src="modules/colors.js"></script>
 <script src="modules/math.js"></script>
-<script src="modules/engineering.js"></script>
+<script src="nature-physics-data.js"></script>
+<script src="modules/nature-physics.js"></script>
 <script src="modules/memory.js"></script>
 <script src="modules/voice.js"></script>
 
@@ -1221,7 +1391,7 @@ const App = (() => {
     if (screen === 'shapes-quiz')      ShapesQuiz.init();
     if (screen === 'colors-quiz')      ColorsQuiz.init();
     if (screen === 'math-quiz')        MathQuiz.init();
-    if (screen === 'engineering-quiz') EngineeringQuiz.init();
+    if (screen === 'physics-hub')      Physics.init();
     if (screen === 'memory-match')     MemoryMatch.init();
     if (screen === 'voice-game')       VoiceGame.init();
     if (screen === 'small-win')        { refreshLabels(); Confetti.burst(); }

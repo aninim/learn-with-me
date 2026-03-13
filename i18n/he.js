@@ -8,7 +8,7 @@ const HE = {
   shapes:      'צורות',
   colors:      'צבעים',
   math:        'חשבון',
-  engineering: 'הנדסה',
+  physics:     'פיזיקה וטבע',
   memory:      'זיכרון',
   voice:       'דיבור',
   next:        'הבא',

@@ -36,6 +36,11 @@ const Progress = (() => {
     return d;
   }
 
+  // Returns raw { attempts, correct, lastSeen } or null
+  function get(category, key) {
+    return load()[category]?.[key] || null;
+  }
+
   function getAccuracy(category, key) {
     const item = load()[category]?.[key];
     if (!item || item.attempts === 0) return 0.5;
@@ -87,5 +92,5 @@ const Progress = (() => {
     save(d);
   }
 
-  return { load, record, getAccuracy, getTotalStars, getSessions, getStreak, getModuleCompletions, recordModuleCompletion, startSession };
+  return { load, record, get, getAccuracy, getTotalStars, getSessions, getStreak, getModuleCompletions, recordModuleCompletion, startSession };
 })();

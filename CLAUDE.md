@@ -9,7 +9,7 @@
 
 **Name:** Learn With Me
 **Owner:** Oren Elimelech — Father of 3, Petach Tikva, Israel
-**Status:** v1.1 stable — Phase 10 (Child Profiles), all 6 modules redesigned (age-tiered, emoji-first), Memory Match v1.1 (PDD redesign). All engine/module JS files in git.
+**Status:** v1.2 stable — Physics & Nature module complete (replaces Engineering). Hub+quiz, 11 concepts Band A/B, full animations, Claude hints. Progress.get() added to engine.
 **Goal:** A free, offline-capable Hebrew early education app for ages 3–6. Replaces cheap commercial toys (WinFun et al.) with adaptive, AI-powered, touch/camera/gamepad-native learning. Shareable as a single HTML file or hosted on GitHub Pages.
 
 ---
@@ -88,7 +88,7 @@
 | **13 — Immersive Worlds** | Sky gradients, theme mascot animations, particle behaviors, glow/depth | ✅ Done (2026-03-10) |
 | **10 — Child Profiles** | Per-profile localStorage, Profile Selector screen, welcome-back tiers, v0.9 migration | ✅ Done |
 | **Memory Match v1.1** | Full PDD redesign — Band A/B, 3D flip, auto-solve, peek hint, star rating | ✅ Done (2026-03-12) |
-| **Engineering → Nature** | Rename + content swap | 🔲 Next |
+| **Physics & Nature v1.2** | Full module — hub+quiz, 11 concepts Band A/B, 4 question types, all animations, Claude hints | ✅ Done (2026-03-13) |
 | **11 — Spaced Repetition** | SM2-style scheduling, replaces 2× weighting | 🔲 Backlog |
 
 ---
@@ -417,7 +417,7 @@ Oren is a father of 3 boys, based in Petach Tikva. Background in Product Managem
 | 2026-03-11 | v1.0: Child Profiles (Phase 10) — profiles engine, selector screen, welcome-back tiers |
 | 2026-03-12 | v1.0+: All 6 modules redesigned — age-tiered UX, emoji-first, speech delays polished |
 | 2026-03-12 | v1.1: Memory Match redesigned per PDD v1.1 — Band A/B, 3D flip, auto-solve, peek hint, star rating |
-| TBD | v1.2: Engineering → Nature rename |
+| 2026-03-13 | v1.2: Physics & Nature module — hub+quiz, 11 concepts, Band A/B, all animations, Claude hints |
 | TBD | v1.3: Phase 11 Spaced Repetition (SM2) |
 
 ---

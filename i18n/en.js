@@ -8,7 +8,7 @@ const EN = {
   shapes:      'Shapes',
   colors:      'Colors',
   math:        'Math',
-  engineering: 'Tools',
+  physics:     'Physics & Nature',
   memory:      'Memory',
   voice:       'Speaking',
   next:        'Next',

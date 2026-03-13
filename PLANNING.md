@@ -6,24 +6,26 @@
 ---
 
 ## Current Version
-**v1.1** — stable (2026-03-12)
-- Memory Match fully redesigned per PDD_MemoryMatch_v1.1.md:
-  - Band A (ages 3–4): identical animal pairs, 2×3 grid (6 cards), 8 jungle animals
-  - Band B (ages 5–6): associative pairs — letter ↔ emoji+word, 3×4 grid (12 cards), full 22-letter alphabet
-  - 3D card flip (300ms rotateY), 250ms mismatch window (passive learning moment)
-  - Matched pairs stay visible at 70% opacity + green glow (M-10)
-  - Auto-solve after 4 misses on same pair ("הִנֵּה הֵם!")
-  - Peek hint 🔍 (Band B only) — reveals 1 card 800ms; pulses after 8s inactivity
-  - Star rating on win overlay (⭐/⭐⭐/⭐⭐⭐ based on flip efficiency)
-  - Per-pair spaced repetition via Progress.record()
-- v1.0 base: Phase 10 Child Profiles + all 6 modules redesigned (age-tiered, emoji-first)
+**v1.2** — stable (2026-03-13)
+- Physics & Nature module (replaces Engineering entirely):
+  - Band A (ages 3–4): 5 concept groups — gravity, heavy/light, float/sink, rainbow, day/night
+  - Band B (ages 5–6): 6 concept groups — gravity, magnetism, float/sink, shadow, sound, matter
+  - Hub screen: concept rows with progress bars, 60% accuracy unlock threshold
+  - 4 question types: drop_observe, sort_classify (balance + water drag), predict_reveal, drag_interactive
+  - All physics animations: gravity fall (squash+bounce), balance tip, water float/sink, rainbow reveal, sky toggle, dual drop, roll off edge, magnet attract/poles, dissolve, shadow live, sound waves, ice melt
+  - Canvas particle effects: impact dust, splash, bubbles, magnet field, sound rings
+  - Web Audio: thud, splash, magnet snap
+  - Hesitation timer: 8s → re-prompt (Band A + B)
+  - Claude Socratic hints after 2nd wrong attempt (Band B)
+  - Parent prompts on correct reveal (Band B)
+  - Nikud shown until 80% concept accuracy
+  - Progress tracked via Progress.record(); Progress.get() added to engine
+- v1.1 base: Memory Match redesign
 
 ---
 
 ## Active Feature
-**Engineering → Nature module rename/redesign** (2026-03-12)
-- Pending: Engineering → Nature rename (content swap, label update)
-- Next major phase: Phase 11 — Spaced Repetition (SM2)
+**Next: Phase 11 — Spaced Repetition (SM2)**
 
 ---
 
@@ -42,6 +44,7 @@
 | 8 — Distribution | PWA shell exists, GitHub Pages not set up | ⚠️ Partial |
 | 9 — Memory Match + Voice Game | New modules, home redesign, theme/progress engine | ✅ Done |
 | Memory Match v1.1 | Full redesign per PDD — Band A/B, 3D flip, mismatch window, auto-solve, peek hint, stars | ✅ Done (2026-03-12) |
+| **Physics & Nature v1.2** | Replaces Engineering — hub+quiz, 11 concepts, 4 question types, all animations, Claude hints | ✅ Done (2026-03-13) |
 | 13 — Immersive Worlds | Sky gradients, mascot/particle animations, glow/depth | ✅ Done (2026-03-10) |
 | **10 — Child Profiles** | Per-profile localStorage, Profile Selector screen, welcome-back tiers | ✅ Done |
 | 11 — Spaced Repetition | SM2-style scheduling, replaces 2× weighting | 🔲 Backlog |
@@ -51,7 +54,7 @@
 ---
 
 ## Known Issues / Watch List
-- Claude API not wired to Math + Engineering modules
+- Claude API not wired to Math module
 - Claude API has minimal network error handling
 - English toggle regression risk — watch on new builds
 - Service worker registered but not caching assets
@@ -103,7 +106,7 @@
 | 2026-03-11 | v1.0 | Child Profiles (Phase 10) — profiles engine, selector screen, welcome-back tiers, data migration |
 | 2026-03-12 | v1.0 | All 6 modules redesigned — age-tiered UX, emoji-first, no reading required |
 | 2026-03-12 | v1.1 | Memory Match redesigned per PDD v1.1 — Band A/B, 3D flip, mismatch window, auto-solve, peek hint, star rating |
-| TBD | v1.2 | Engineering → Nature rename/redesign |
+| 2026-03-13 | v1.2 | Physics & Nature module — replaces Engineering. Hub+quiz, 11 concepts, Band A/B, all animations, Claude hints |
 | TBD | v1.3 | Phase 11 Spaced Repetition (SM2) |
 | TBD | v1.3 | Full offline caching, GitHub Pages |
 
