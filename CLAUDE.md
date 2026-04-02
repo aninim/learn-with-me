@@ -320,32 +320,49 @@ Dark:        #1A1A2E
 ## 📁 Folder Structure
 
 ```
-Learn with me/
+learn-with-me/
 ├── CLAUDE.md
-├── index.html                  # Entry point
-├── manifest.json               # PWA (Phase 8)
-├── sw.js                       # Service worker (Phase 8)
+├── PLANNING.md
+├── index.html                  # Entry point (GitHub Pages root)
+├── manifest.json               # PWA
+├── sw.js                       # Service worker
+├── icon.svg
+├── .nojekyll
 ├── .env                        # API keys — never commit
-├── assets/
-│   ├── fonts/                  # Self-hosted fallback
-│   └── audio/                  # Pre-recorded he-IL fallback
-├── modules/
-│   ├── letters.js              # Data + render + tracing paths (Phase 2 lives here)
-│   ├── numbers.js              # Data + render
-│   ├── shapes.js               # Phase 3
-│   └── colors.js               # Phase 3
 ├── engine/
-│   ├── speech.js               # TTS wrapper
-│   ├── progress.js             # localStorage adapter
+│   ├── adaptive.js             # Question weighting
+│   ├── claude.js               # Claude API wrapper
 │   ├── input.js                # Unified input handler
-│   ├── adaptive.js             # Question weighting (Phase 4)
-│   └── claude.js               # Claude API wrapper (Phase 6)
-├── cv/
-│   ├── mediapipe-hands.js      # Hand gesture recognition (Phase 5)
-│   └── gesture-map.js          # Gesture → action mapping
-└── i18n/
-    ├── he.js                   # All Hebrew UI strings
-    └── en.js                   # English strings (Phase 7)
+│   ├── lang.js                 # Language switching
+│   ├── progress.js             # localStorage adapter
+│   ├── profiles.js             # Child profile management
+│   ├── speech.js               # TTS wrapper
+│   └── theme.js                # Theme engine
+├── modules/
+│   ├── letters.js
+│   ├── numbers.js
+│   ├── shapes.js
+│   ├── colors.js
+│   ├── math.js
+│   ├── engineering.js
+│   ├── memory.js
+│   ├── voice.js
+│   ├── nature-physics.js
+│   └── nature-physics-data.js  # Physics module data
+├── i18n/
+│   ├── he.js
+│   └── en.js
+├── research/
+│   └── Research.md
+└── docs/
+    ├── LearnWithMe_PDD_v1_8.md
+    ├── PDD_MemoryMatch_v1.1.md
+    ├── nature-physics-spec.md
+    ├── nature-physics-animations.md
+    ├── memory-match-visual-deck.html
+    ├── Learn_With_Me_Adaptive_Play.pptx
+    └── wireframes/
+        └── wireframes-v3-learn-with-me.html
 ```
 
 > ⚠️ **Tracing logic is in `modules/letters.js`** — not a separate tracing.js file.
@@ -376,6 +393,15 @@ Learn with me/
 8. **No negative feedback text.** "Wrong" does not exist in the UI — always gentle redirect.
 9. **All sensor data on-device.** No camera/mic data leaves the browser.
 10. **Socratic AI rule.** AI never gives the direct answer — system reveals it after 2 fails, not the AI voice.
+
+---
+
+## ⚠️ Known Issues (as of v1.2)
+
+- Claude API not wired to Math + Engineering modules
+- Claude API has minimal network error handling
+- Service worker registered but not caching assets properly
+- Gamepad D-pad navigation incomplete
 
 ---
 

@@ -1,0 +1,1410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Memory Match — Visual Design Deck | Learn With Me</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;900&family=Varela+Round&display=swap');
+
+  :root {
+    --orange: #FF6B35;
+    --teal: #00B4A6;
+    --yellow: #FFD166;
+    --green: #06D6A0;
+    --red: #EF476F;
+    --dark: #1A1A2E;
+    --purple: #9B5DE5;
+    --blue: #457B9D;
+    --bg: #FFF9F0;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Rubik', sans-serif;
+    background: #0f0f1a;
+    color: #fff;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(15,15,26,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,107,53,0.3);
+    display: flex; align-items: center; gap: 8px;
+    padding: 12px 24px; overflow-x: auto;
+  }
+  .nav-brand {
+    font-size: 14px; font-weight: 700; color: var(--orange);
+    white-space: nowrap; margin-right: 16px;
+  }
+  .nav-btn {
+    padding: 6px 14px; border-radius: 20px; border: none; cursor: pointer;
+    font-family: 'Rubik', sans-serif; font-size: 12px; font-weight: 600;
+    white-space: nowrap; transition: all 0.2s;
+    background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.6);
+  }
+  .nav-btn:hover, .nav-btn.active {
+    background: var(--orange); color: #fff;
+  }
+
+  /* SLIDES */
+  .slide {
+    display: none; min-height: 100vh; padding: 100px 40px 60px;
+    max-width: 1100px; margin: 0 auto;
+  }
+  .slide.active { display: block; }
+
+  /* SLIDE HEADER */
+  .slide-label {
+    font-size: 11px; font-weight: 700; letter-spacing: 3px;
+    color: var(--orange); text-transform: uppercase; margin-bottom: 8px;
+  }
+  .slide-title {
+    font-size: clamp(28px, 5vw, 52px); font-weight: 900;
+    line-height: 1.1; margin-bottom: 12px;
+  }
+  .slide-sub {
+    font-size: 16px; color: rgba(255,255,255,0.6);
+    margin-bottom: 40px; max-width: 600px; line-height: 1.6;
+  }
+
+  /* COVER */
+  .cover-hero {
+    text-align: center; padding: 40px 0;
+  }
+  .cover-emoji-row {
+    font-size: 72px; margin-bottom: 32px;
+    display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;
+  }
+  .cover-emoji-row span {
+    display: inline-block;
+    animation: float 3s ease-in-out infinite;
+  }
+  .cover-emoji-row span:nth-child(2) { animation-delay: 0.3s; }
+  .cover-emoji-row span:nth-child(3) { animation-delay: 0.6s; }
+  .cover-emoji-row span:nth-child(4) { animation-delay: 0.9s; }
+  .cover-emoji-row span:nth-child(5) { animation-delay: 1.2s; }
+  @keyframes float {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+  .cover-title {
+    font-size: clamp(36px, 7vw, 80px); font-weight: 900;
+    background: linear-gradient(135deg, var(--orange), var(--yellow), var(--green));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    margin-bottom: 12px;
+  }
+  .cover-hebrew {
+    font-size: 28px; color: var(--teal); font-family: 'Varela Round', sans-serif;
+    margin-bottom: 24px;
+  }
+  .cover-tags {
+    display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+    margin-bottom: 40px;
+  }
+  .tag {
+    padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: 600;
+    border: 1.5px solid currentColor;
+  }
+
+  /* RESEARCH CARDS */
+  .research-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px; margin-top: 32px;
+  }
+  .research-card {
+    border-radius: 16px; padding: 24px;
+    border: 1px solid rgba(255,255,255,0.08);
+    position: relative; overflow: hidden;
+  }
+  .research-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  }
+  .research-card.orange { background: rgba(255,107,53,0.08); }
+  .research-card.orange::before { background: var(--orange); }
+  .research-card.teal { background: rgba(0,180,166,0.08); }
+  .research-card.teal::before { background: var(--teal); }
+  .research-card.purple { background: rgba(155,93,229,0.08); }
+  .research-card.purple::before { background: var(--purple); }
+  .research-card.green { background: rgba(6,214,160,0.08); }
+  .research-card.green::before { background: var(--green); }
+  .research-icon { font-size: 36px; margin-bottom: 12px; }
+  .research-title { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+  .research-body { font-size: 13px; color: rgba(255,255,255,0.65); line-height: 1.6; }
+  .research-cite { font-size: 11px; color: rgba(255,255,255,0.35); margin-top: 10px; font-style: italic; }
+
+  /* AGE BANDS */
+  .bands-row {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 32px;
+  }
+  .band-card {
+    border-radius: 20px; padding: 28px; position: relative; overflow: hidden;
+  }
+  .band-card.band-a { background: linear-gradient(135deg, #1a3a1a, #0d2b1a); border: 1px solid #06D6A0; }
+  .band-card.band-b { background: linear-gradient(135deg, #3a1a00, #2b1500); border: 1px solid #FF6B35; }
+  .band-badge {
+    display: inline-block; padding: 4px 12px; border-radius: 20px;
+    font-size: 11px; font-weight: 700; letter-spacing: 1px; margin-bottom: 16px;
+  }
+  .band-a .band-badge { background: var(--green); color: #000; }
+  .band-b .band-badge { background: var(--orange); color: #fff; }
+  .band-age { font-size: 32px; font-weight: 900; margin-bottom: 4px; }
+  .band-name { font-size: 18px; font-weight: 700; margin-bottom: 16px; color: rgba(255,255,255,0.8); }
+  .band-stat-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+  .band-stat {
+    background: rgba(255,255,255,0.06); border-radius: 10px; padding: 10px 14px;
+    font-size: 12px;
+  }
+  .band-stat strong { display: block; font-size: 18px; font-weight: 900; }
+  .band-pairs { font-size: 13px; color: rgba(255,255,255,0.6); line-height: 1.6; }
+  .animal-parade { font-size: 28px; margin-top: 16px; letter-spacing: 4px; }
+
+  /* THEMES */
+  .themes-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px; margin-top: 32px;
+  }
+  .theme-card {
+    border-radius: 20px; padding: 24px; text-align: center;
+    cursor: pointer; transition: transform 0.2s;
+    position: relative; overflow: hidden;
+  }
+  .theme-card:hover { transform: translateY(-4px); }
+  .theme-card.jungle { background: linear-gradient(135deg, #1a4a00, #2d7a00); }
+  .theme-card.candy { background: linear-gradient(135deg, #6b1a4a, #b5446e); }
+  .theme-card.toy { background: linear-gradient(135deg, #4a2800, #8B4513); }
+  .theme-card.ocean { background: linear-gradient(135deg, #001a4a, #0066cc); }
+  .theme-card.space { background: linear-gradient(135deg, #0a0a2e, #1a0a4a); }
+  .theme-emoji { font-size: 52px; margin-bottom: 12px; }
+  .theme-name { font-size: 16px; font-weight: 800; margin-bottom: 4px; }
+  .theme-ages { font-size: 12px; opacity: 0.7; margin-bottom: 12px; }
+  .theme-animals { font-size: 20px; letter-spacing: 2px; }
+  .theme-default-badge {
+    position: absolute; top: 12px; right: 12px;
+    background: var(--yellow); color: #000;
+    font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 10px;
+  }
+
+  /* GAME BOARD WIREFRAME */
+  .board-wireframe {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 24px; padding: 32px; margin-top: 32px;
+    max-width: 700px; margin-left: auto; margin-right: auto;
+  }
+  .board-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 24px; padding-bottom: 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  .board-theme-label {
+    display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700;
+  }
+  .board-stars { font-size: 20px; letter-spacing: 2px; }
+  .board-pairs { font-size: 13px; color: rgba(255,255,255,0.5); }
+  .card-grid {
+    display: grid; gap: 12px; margin-bottom: 24px;
+  }
+  .card-grid.g2x3 { grid-template-columns: repeat(3, 1fr); }
+  .card-grid.g3x4 { grid-template-columns: repeat(4, 1fr); }
+
+  .memory-card {
+    border-radius: 14px; aspect-ratio: 1;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    font-size: 36px; cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative; overflow: hidden;
+    user-select: none;
+  }
+  .memory-card:hover { transform: scale(1.05); }
+  .memory-card.face-down {
+    background: linear-gradient(135deg, #1a4a00, #2d7a00);
+    border: 2px solid rgba(6,214,160,0.3);
+  }
+  .memory-card.face-down::after {
+    content: '🌿'; font-size: 28px; opacity: 0.4;
+  }
+  .memory-card.face-up {
+    background: rgba(255,255,255,0.06);
+    border: 2px solid rgba(255,255,255,0.15);
+  }
+  .memory-card.matched {
+    background: rgba(6,214,160,0.12);
+    border: 2px solid var(--green);
+    box-shadow: 0 0 20px rgba(6,214,160,0.3);
+    opacity: 0.7;
+  }
+  .memory-card.pulsing {
+    animation: matchPulse 0.6s ease;
+  }
+  .memory-card .card-label {
+    font-family: 'Varela Round', sans-serif;
+    font-size: 13px; margin-top: 4px; color: rgba(255,255,255,0.8);
+  }
+  @keyframes matchPulse {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.15); box-shadow: 0 0 30px rgba(6,214,160,0.6); }
+    100% { transform: scale(1); }
+  }
+
+  .board-footer {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.1);
+  }
+  .hint-btn {
+    background: rgba(255,255,255,0.06); border: none; border-radius: 12px;
+    padding: 10px 18px; color: rgba(255,255,255,0.6);
+    font-family: 'Rubik', sans-serif; font-size: 13px; cursor: pointer;
+    transition: all 0.2s;
+  }
+  .hint-btn:hover { background: rgba(255,255,255,0.12); }
+  .home-btn {
+    background: rgba(255,107,53,0.15); border: none; border-radius: 12px;
+    padding: 10px 18px; color: var(--orange);
+    font-family: 'Rubik', sans-serif; font-size: 13px; cursor: pointer;
+  }
+
+  /* CARD STATES */
+  .states-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 20px; margin-top: 32px;
+  }
+  .state-demo {
+    text-align: center;
+  }
+  .state-card-demo {
+    width: 100px; height: 100px; border-radius: 16px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 36px; margin: 0 auto 12px; transition: all 0.3s;
+    cursor: pointer; position: relative;
+  }
+  .state-face-down {
+    background: linear-gradient(135deg, #1a4a00, #2d7a00);
+    border: 2px solid rgba(6,214,160,0.3);
+    animation: shimmer-demo 3s ease-in-out infinite;
+  }
+  @keyframes shimmer-demo {
+    0%,100% { box-shadow: 0 0 0px rgba(6,214,160,0); }
+    50% { box-shadow: 0 0 16px rgba(6,214,160,0.4); }
+  }
+  .state-face-up {
+    background: rgba(255,255,255,0.06);
+    border: 2px solid rgba(255,255,255,0.2);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    transform: scale(1.05);
+  }
+  .state-matched {
+    background: rgba(6,214,160,0.12);
+    border: 2px solid var(--green);
+    box-shadow: 0 0 20px rgba(6,214,160,0.4);
+    opacity: 0.7;
+  }
+  .state-mismatch {
+    background: rgba(239,71,111,0.1);
+    border: 2px solid rgba(239,71,111,0.4);
+    animation: mismatch-demo 1.5s ease-in-out infinite;
+  }
+  @keyframes mismatch-demo {
+    0%,100% { border-color: rgba(239,71,111,0.2); }
+    50% { border-color: rgba(239,71,111,0.7); }
+  }
+  .state-name { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+  .state-desc { font-size: 11px; color: rgba(255,255,255,0.5); line-height: 1.5; }
+
+  /* CONTENT PAIRS */
+  .pairs-showcase {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px; margin-top: 32px;
+  }
+  .pair-demo {
+    background: rgba(255,255,255,0.04); border-radius: 16px; padding: 20px;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .pair-category {
+    font-size: 11px; font-weight: 700; letter-spacing: 2px; color: var(--teal);
+    margin-bottom: 16px; text-transform: uppercase;
+  }
+  .pair-cards {
+    display: flex; align-items: center; gap: 12px;
+  }
+  .pair-card {
+    flex: 1; background: rgba(255,255,255,0.06); border-radius: 12px;
+    padding: 16px; text-align: center; border: 1px solid rgba(255,255,255,0.1);
+  }
+  .pair-card-emoji { font-size: 32px; margin-bottom: 6px; }
+  .pair-card-text { font-size: 13px; font-family: 'Varela Round', sans-serif; line-height: 1.4; }
+  .pair-arrow { font-size: 20px; opacity: 0.4; }
+  .pair-concept { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 12px; font-style: italic; }
+
+  /* AI SECTION */
+  .ai-flow {
+    display: grid; grid-template-columns: 1fr 40px 1fr 40px 1fr;
+    align-items: center; gap: 8px; margin-top: 32px;
+  }
+  .ai-step {
+    background: rgba(255,255,255,0.04); border-radius: 16px; padding: 20px;
+    text-align: center; border: 1px solid rgba(255,255,255,0.08);
+  }
+  .ai-step-icon { font-size: 32px; margin-bottom: 10px; }
+  .ai-step-title { font-size: 13px; font-weight: 700; margin-bottom: 6px; }
+  .ai-step-desc { font-size: 11px; color: rgba(255,255,255,0.5); line-height: 1.5; }
+  .ai-arrow { text-align: center; font-size: 20px; opacity: 0.4; }
+
+  .hint-bubble {
+    background: rgba(0,180,166,0.1); border: 1px solid rgba(0,180,166,0.3);
+    border-radius: 16px; padding: 20px; margin-top: 24px;
+    font-family: 'Varela Round', sans-serif; direction: rtl;
+    font-size: 18px; line-height: 1.8;
+  }
+  .hint-bubble::before {
+    content: '🤖 AI Hint Example:';
+    display: block; font-family: 'Rubik', sans-serif; font-size: 11px;
+    font-weight: 700; color: var(--teal); letter-spacing: 2px;
+    direction: ltr; margin-bottom: 8px;
+  }
+
+  /* SRS */
+  .srs-viz {
+    margin-top: 32px; display: grid;
+    grid-template-columns: repeat(3, 1fr); gap: 16px;
+  }
+  .srs-card {
+    border-radius: 14px; padding: 20px; text-align: center;
+  }
+  .srs-card.weak { background: rgba(239,71,111,0.1); border: 1px solid rgba(239,71,111,0.3); }
+  .srs-card.medium { background: rgba(255,209,102,0.1); border: 1px solid rgba(255,209,102,0.3); }
+  .srs-card.strong { background: rgba(6,214,160,0.1); border: 1px solid rgba(6,214,160,0.3); }
+  .srs-bar { height: 8px; border-radius: 4px; margin: 12px 0 8px; }
+  .srs-card.weak .srs-bar { background: var(--red); width: 30%; }
+  .srs-card.medium .srs-bar { background: var(--yellow); width: 65%; }
+  .srs-card.strong .srs-bar { background: var(--green); width: 90%; }
+  .srs-label { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+  .srs-detail { font-size: 11px; color: rgba(255,255,255,0.5); line-height: 1.5; }
+  .srs-weight {
+    font-size: 24px; font-weight: 900; margin-top: 8px;
+  }
+  .srs-card.weak .srs-weight { color: var(--red); }
+  .srs-card.medium .srs-weight { color: var(--yellow); }
+  .srs-card.strong .srs-weight { color: var(--green); }
+
+  /* WIN SCREEN */
+  .win-screen {
+    background: linear-gradient(135deg, #0a2a1a, #1a4a00);
+    border-radius: 24px; padding: 48px; text-align: center;
+    border: 1px solid rgba(6,214,160,0.3);
+    position: relative; overflow: hidden; margin-top: 32px;
+  }
+  .confetti {
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    pointer-events: none; overflow: hidden;
+  }
+  .confetti-piece {
+    position: absolute; font-size: 20px;
+    animation: confettiFall 4s ease-in infinite;
+  }
+  @keyframes confettiFall {
+    0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(400px) rotate(720deg); opacity: 0; }
+  }
+  .win-stars { font-size: 52px; margin-bottom: 16px; }
+  .win-hebrew { font-size: 32px; font-family: 'Varela Round'; color: var(--yellow); margin-bottom: 8px; }
+  .win-sub { font-size: 16px; color: rgba(255,255,255,0.6); margin-bottom: 32px; }
+  .win-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+  .win-btn {
+    padding: 14px 32px; border-radius: 50px; font-size: 16px; font-weight: 700;
+    border: none; cursor: pointer; font-family: 'Rubik', sans-serif;
+    transition: transform 0.2s;
+  }
+  .win-btn:hover { transform: scale(1.05); }
+  .win-btn.primary { background: var(--green); color: #000; }
+  .win-btn.secondary { background: rgba(255,255,255,0.1); color: #fff; }
+
+  /* LOCKED DECISIONS */
+  .locks-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px; margin-top: 32px;
+  }
+  .lock-card {
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px; padding: 18px; display: flex; gap: 14px; align-items: flex-start;
+  }
+  .lock-icon { font-size: 24px; flex-shrink: 0; }
+  .lock-title { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+  .lock-desc { font-size: 12px; color: rgba(255,255,255,0.5); line-height: 1.5; }
+
+  /* INTERACTIVE BOARD */
+  .live-board-container {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 24px; padding: 32px; margin-top: 32px;
+  }
+  .theme-switcher {
+    display: flex; gap: 10px; margin-bottom: 24px; flex-wrap: wrap;
+  }
+  .theme-switch-btn {
+    padding: 8px 16px; border-radius: 20px; border: none; cursor: pointer;
+    font-family: 'Rubik', sans-serif; font-size: 12px; font-weight: 600;
+    transition: all 0.2s;
+  }
+  .theme-switch-btn.active { transform: scale(1.05); }
+  #live-board { max-width: 520px; margin: 0 auto; }
+  .live-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 20px; padding: 12px 16px;
+    background: rgba(255,255,255,0.04); border-radius: 14px;
+  }
+  .live-grid {
+    display: grid; gap: 10px;
+    grid-template-columns: repeat(3, 1fr);
+    margin-bottom: 16px;
+  }
+  .live-card {
+    aspect-ratio: 1; border-radius: 14px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    font-size: 32px; cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+    border: 2px solid transparent; user-select: none;
+    position: relative;
+  }
+  .live-card:active { transform: scale(0.95); }
+  .live-card .card-text-label {
+    font-family: 'Varela Round', sans-serif; font-size: 11px;
+    margin-top: 3px; opacity: 0.8; text-align: center; padding: 0 4px;
+  }
+  .live-status {
+    text-align: center; font-size: 13px; color: rgba(255,255,255,0.5);
+    margin-top: 12px;
+  }
+  .reset-btn {
+    display: block; margin: 16px auto 0;
+    background: rgba(255,255,255,0.06); border: none; border-radius: 10px;
+    padding: 8px 20px; color: rgba(255,255,255,0.6);
+    font-family: 'Rubik', sans-serif; font-size: 13px; cursor: pointer;
+  }
+  .reset-btn:hover { background: rgba(255,255,255,0.12); }
+
+  /* RESPONSIVE */
+  @media (max-width: 600px) {
+    .slide { padding: 90px 20px 40px; }
+    .bands-row { grid-template-columns: 1fr; }
+    .ai-flow { grid-template-columns: 1fr; }
+    .ai-arrow { transform: rotate(90deg); }
+    .srs-viz { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-brand">🧠 Memory Match</div>
+  <button class="nav-btn active" onclick="showSlide('cover')">Cover</button>
+  <button class="nav-btn" onclick="showSlide('research')">Research</button>
+  <button class="nav-btn" onclick="showSlide('ages')">Age Bands</button>
+  <button class="nav-btn" onclick="showSlide('themes')">5 Worlds</button>
+  <button class="nav-btn" onclick="showSlide('board')">Board Design</button>
+  <button class="nav-btn" onclick="showSlide('states')">Card States</button>
+  <button class="nav-btn" onclick="showSlide('content')">Card Content</button>
+  <button class="nav-btn" onclick="showSlide('ai')">AI Layer</button>
+  <button class="nav-btn" onclick="showSlide('srs')">Spaced Rep.</button>
+  <button class="nav-btn" onclick="showSlide('win')">Win Screen</button>
+  <button class="nav-btn" onclick="showSlide('play')">▶ Play Demo</button>
+  <button class="nav-btn" onclick="showSlide('locked')">Locked</button>
+</nav>
+
+<!-- SLIDE: COVER -->
+<div class="slide active" id="slide-cover">
+  <div class="cover-hero">
+    <div class="cover-emoji-row">
+      <span>🦁</span><span>🍭</span><span>🚂</span><span>🌊</span><span>🔭</span>
+    </div>
+    <div class="cover-title">Memory Match</div>
+    <div class="cover-hebrew">זיכרון — Learn With Me</div>
+    <div class="cover-tags">
+      <span class="tag" style="color:var(--green)">Ages 3–6</span>
+      <span class="tag" style="color:var(--orange)">Hebrew First</span>
+      <span class="tag" style="color:var(--teal)">Offline Ready</span>
+      <span class="tag" style="color:var(--purple)">AI Adaptive</span>
+      <span class="tag" style="color:var(--yellow)">5 Worlds</span>
+    </div>
+    <p style="font-size:18px;color:rgba(255,255,255,0.6);max-width:560px;margin:0 auto;line-height:1.7">
+      Not just a card game. Every flip is a <strong style="color:#fff">vocabulary act</strong>.
+      Every match is a <strong style="color:#fff">memory trace</strong>.<br>
+      Research-backed. Sound-rich. Endlessly replayable.
+    </p>
+  </div>
+</div>
+
+<!-- SLIDE: RESEARCH -->
+<div class="slide" id="slide-research">
+  <div class="slide-label">Slide 02 — Foundation</div>
+  <div class="slide-title">Why It Works: <span style="color:var(--teal)">The Science</span></div>
+  <div class="slide-sub">5 research principles baked into every design decision.</div>
+
+  <div class="research-grid">
+    <div class="research-card orange">
+      <div class="research-icon">🧠</div>
+      <div class="research-title">Working Memory Predicts Academic Readiness</div>
+      <div class="research-body">WM strength at age 5 predicts reading and math outcomes better than IQ alone. Tablet-based WM games produce gains that persist <strong>1+ month after play stops</strong> — genuine neural change.</div>
+      <div class="research-cite">Alloway (2012); University of Maryland RCT, n=148 kindergarteners (PubMed 2019)</div>
+    </div>
+    <div class="research-card teal">
+      <div class="research-icon">📉</div>
+      <div class="research-title">The Ebbinghaus Spacing Effect</div>
+      <div class="research-body">Memory decays rapidly. <strong>5 spaced encounters beat 10 massed encounters</strong> on the same day. Cards missed in round 1 get higher weight in round 2. That's Anki for 4-year-olds.</div>
+      <div class="research-cite">Ebbinghaus (1885); ResearchGate spaced-rep mobile learning meta-analysis (2014)</div>
+    </div>
+    <div class="research-card purple">
+      <div class="research-icon">🔗</div>
+      <div class="research-title">Associative Memory &gt; Rote Memory</div>
+      <div class="research-body">Matching א to 🦁 (Ari) creates a <strong>dual-coded memory trace</strong> — image + sound + letter, all at once. Traditional aleph-bet charts have used this for millennia. We digitize it.</div>
+      <div class="research-cite">Paivio Dual-Coding Theory; eeBoo Research (2025)</div>
+    </div>
+    <div class="research-card green">
+      <div class="research-icon">😌</div>
+      <div class="research-title">Stress Blocks Memory Formation</div>
+      <div class="research-body">Negative feedback triggers cortisol. Cortisol <strong>inhibits hippocampal encoding</strong>. Every wrong answer uses gentle audio + card flip — no red X, no buzzer, no punitive signal.</div>
+      <div class="research-cite">Lupien et al. (2009) — stress & hippocampus; positive reinforcement architecture</div>
+    </div>
+    <div class="research-card orange">
+      <div class="research-icon">👁️</div>
+      <div class="research-title">Subitizing & Gestalt Number Sense</div>
+      <div class="research-body">Children recognize dot patterns <strong>without counting</strong> up to 5. Dice patterns, triangle clusters, and square groups bypass serial counting — building number sense at the perceptual level.</div>
+      <div class="research-cite">Dehaene (2011); Clements subitizing research; Gestalt proximity principle</div>
+    </div>
+    <div class="research-card teal">
+      <div class="research-icon">🎮</div>
+      <div class="research-title">250ms Mismatch Window = Passive Learning</div>
+      <div class="research-body">Cards stay face-up for <strong>250ms after a mismatch</strong> — long enough to register both images, short enough to feel snappy. A "loss" becomes a learning moment. Unique to this design.</div>
+      <div class="research-cite">HCI: Fitts (1954); cognitive load theory; this module's core UX innovation</div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE: AGES -->
+<div class="slide" id="slide-ages">
+  <div class="slide-label">Slide 03 — Scope (Ages 3–6 Only)</div>
+  <div class="slide-title">Two Bands. <span style="color:var(--green)">Zero</span> One-Size-Fits-All.</div>
+  <div class="slide-sub">Band C (ages 7–8) is out of scope for this module. Every number, grid size, and mechanic is calibrated to the child in front of you.</div>
+
+  <div class="bands-row">
+    <div class="band-card band-a">
+      <span class="band-badge">BAND A</span>
+      <div class="band-age">Ages 3–4</div>
+      <div class="band-name">🐣 The Explorer</div>
+      <div class="band-stat-row">
+        <div class="band-stat"><strong>4–6</strong>cards</div>
+        <div class="band-stat"><strong>2×2</strong>or 2×3</div>
+        <div class="band-stat"><strong>3–5</strong>min</div>
+      </div>
+      <div class="band-pairs">
+        <strong>Identical pairs only</strong> — both cards show the same animal. Audio speaks the Hebrew name on every flip. No mismatch pressure. Unlimited tries. No fail state.<br><br>
+        <strong>Default theme:</strong> 🦁 Jungle World<br>
+        <strong>Win:</strong> Any completion = full celebration
+      </div>
+      <div class="animal-parade">🦁🐘🦒🐒🦓🦜</div>
+    </div>
+
+    <div class="band-card band-b">
+      <span class="band-badge">BAND B</span>
+      <div class="band-age">Ages 5–6</div>
+      <div class="band-name">⭐ The Builder</div>
+      <div class="band-stat-row">
+        <div class="band-stat"><strong>12–16</strong>cards</div>
+        <div class="band-stat"><strong>3×4</strong>or 4×4</div>
+        <div class="band-stat"><strong>8–12</strong>min</div>
+      </div>
+      <div class="band-pairs">
+        <strong>Associative pairs</strong> — letter card ↔ word/picture card. Number ↔ dot pattern. Animal ↔ Hebrew name. Every match is a vocabulary event.<br><br>
+        <strong>Stars:</strong> Efficiency-based (flip count)<br>
+        <strong>Spaced rep:</strong> Weak pairs reappear next session<br>
+        <strong>Hint:</strong> 🔍 Peek button after 8s inactivity
+      </div>
+      <div class="animal-parade">🍭🚂🌊🔭</div>
+    </div>
+  </div>
+
+  <div style="margin-top:24px;padding:20px;background:rgba(255,107,53,0.08);border:1px solid rgba(255,107,53,0.2);border-radius:14px;">
+    <strong style="color:var(--orange)">🔒 Scope Lock:</strong>
+    <span style="color:rgba(255,255,255,0.7);font-size:14px"> Band C (ages 7–8) — math compositions, challenge mode, 4×6 grids — is intentionally removed from this version. Backlog item for v1.5.</span>
+  </div>
+</div>
+
+<!-- SLIDE: THEMES -->
+<div class="slide" id="slide-themes">
+  <div class="slide-label">Slide 04 — Theme System</div>
+  <div class="slide-title">5 Worlds. Every One <span style="color:var(--yellow)">Fully Different.</span></div>
+  <div class="slide-sub">Card backs, board backgrounds, sound palettes, reveal animations, celebration styles — all unique per theme. The child picks their world.</div>
+
+  <div class="themes-grid">
+    <div class="theme-card jungle">
+      <div class="theme-default-badge">DEFAULT</div>
+      <div class="theme-emoji">🦁</div>
+      <div class="theme-name">Jungle World</div>
+      <div class="theme-ages">Ages 3–5</div>
+      <div class="theme-animals">🦁🐘🦒🐒🦓🦜🦛🐊</div>
+      <div style="font-size:12px;margin-top:12px;opacity:0.7">Cards "grow" from small<br>Drum + animal sounds<br>Warm amber board</div>
+    </div>
+    <div class="theme-card candy">
+      <div class="theme-emoji">🍭</div>
+      <div class="theme-name">Candy Land</div>
+      <div class="theme-ages">Ages 4–6</div>
+      <div class="theme-animals">🍭🧁🍦🐻🍫🍪🍩🍬</div>
+      <div style="font-size:12px;margin-top:12px;opacity:0.7">Cards "unwrap" with twist<br>Sparkle + pop sounds<br>Pastel pink/mint board</div>
+    </div>
+    <div class="theme-card toy">
+      <div class="theme-emoji">🚂</div>
+      <div class="theme-name">Toy Town</div>
+      <div class="theme-ages">Ages 4–6</div>
+      <div class="theme-animals">🚂🚗🤖🚀⚽🥁🪁🚢</div>
+      <div style="font-size:12px;margin-top:12px;opacity:0.7">Cards slide from toy box<br>Engine + squeak sounds<br>Wooden texture board</div>
+    </div>
+    <div class="theme-card ocean">
+      <div class="theme-emoji">🌊</div>
+      <div class="theme-name">Ocean Deep</div>
+      <div class="theme-ages">Ages 5–6</div>
+      <div class="theme-animals">🐠🐳🐙🦄🪼🦀🐢🪸</div>
+      <div style="font-size:12px;margin-top:12px;opacity:0.7">Cards "surface" with ripple<br>Sonar ping + whale song<br>Teal underwater board</div>
+    </div>
+    <div class="theme-card space">
+      <div class="theme-emoji">🔭</div>
+      <div class="theme-name">Space Explorer</div>
+      <div class="theme-ages">Ages 5–6</div>
+      <div class="theme-animals">🚀🪐⭐👨‍🚀🛸🌙☄️🕳️</div>
+      <div style="font-size:12px;margin-top:12px;opacity:0.7">Cards beam in (laser scan)<br>Synth + rocket ignition<br>Deep navy star field</div>
+    </div>
+  </div>
+
+  <div style="margin-top:24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;">
+    <div style="background:rgba(255,255,255,0.04);border-radius:12px;padding:16px;">
+      <div style="font-size:12px;font-weight:700;color:var(--teal);margin-bottom:8px">CARD BACK DESIGN</div>
+      <div style="font-size:13px;color:rgba(255,255,255,0.6)">Each theme has a unique card back pattern — leafy for Jungle, polka dot for Candy, wooden for Toy, teal wave for Ocean, star field for Space.</div>
+    </div>
+    <div style="background:rgba(255,255,255,0.04);border-radius:12px;padding:16px;">
+      <div style="font-size:12px;font-weight:700;color:var(--teal);margin-bottom:8px">SOUND GENERATION</div>
+      <div style="font-size:13px;color:rgba(255,255,255,0.6)">All audio via <strong style="color:#fff">Web Audio API</strong> — synthesized, no files needed. 100% offline. Each theme gets its own oscillator signature.</div>
+    </div>
+    <div style="background:rgba(255,255,255,0.04);border-radius:12px;padding:16px;">
+      <div style="font-size:12px;font-weight:700;color:var(--teal);margin-bottom:8px">THEME SWITCHING</div>
+      <div style="font-size:13px;color:rgba(255,255,255,0.6)">Set in onboarding. Changeable anytime from main menu. Last-used theme is remembered in localStorage.</div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE: BOARD -->
+<div class="slide" id="slide-board">
+  <div class="slide-label">Slide 05 — Board Design</div>
+  <div class="slide-title">The Game Board. <span style="color:var(--green)">Every Pixel Intentional.</span></div>
+  <div class="slide-sub">Two grid sizes shown. All touch targets ≥96×96px. RTL-aware layout. No text required to navigate.</div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:32px;align-items:start">
+
+    <!-- Band A board -->
+    <div>
+      <div style="font-size:12px;font-weight:700;color:var(--green);margin-bottom:12px;letter-spacing:2px">BAND A — 2×3 GRID (6 CARDS)</div>
+      <div class="board-wireframe" style="padding:20px">
+        <div class="board-header">
+          <div class="board-theme-label">🦁 Jungle</div>
+          <div>
+            <div class="board-stars">⭐⭐⭐</div>
+            <div class="board-pairs">זוגות: 1/3</div>
+          </div>
+        </div>
+        <div class="card-grid g2x3" style="gap:8px">
+          <div class="memory-card matched" style="font-size:28px;min-height:90px">🦁<div class="card-label" style="font-size:11px">אַרְיֵה</div></div>
+          <div class="memory-card face-down" style="min-height:90px"></div>
+          <div class="memory-card face-up" style="font-size:28px;min-height:90px;background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.2)">🐘<div class="card-label" style="font-size:11px">פִּיל</div></div>
+          <div class="memory-card matched" style="font-size:28px;min-height:90px">🦁<div class="card-label" style="font-size:11px">אַרְיֵה</div></div>
+          <div class="memory-card face-down" style="min-height:90px"></div>
+          <div class="memory-card face-down" style="min-height:90px"></div>
+        </div>
+        <div class="board-footer">
+          <div style="font-size:11px;color:rgba(255,255,255,0.3)">No hint — Band A</div>
+          <button class="home-btn">🏠</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Band B board -->
+    <div>
+      <div style="font-size:12px;font-weight:700;color:var(--orange);margin-bottom:12px;letter-spacing:2px">BAND B — 3×4 GRID (12 CARDS)</div>
+      <div class="board-wireframe" style="padding:20px">
+        <div class="board-header">
+          <div class="board-theme-label">🍭 Candy</div>
+          <div>
+            <div class="board-stars">⭐⭐</div>
+            <div class="board-pairs">זוגות: 3/6</div>
+          </div>
+        </div>
+        <div class="card-grid g3x4" style="gap:6px">
+          <div class="memory-card matched" style="font-size:20px;min-height:64px">א<div class="card-label" style="font-size:9px">אָלֶף</div></div>
+          <div class="memory-card matched" style="font-size:20px;min-height:64px">🦁<div class="card-label" style="font-size:9px">אֲרִי</div></div>
+          <div class="memory-card face-down" style="min-height:64px;background:linear-gradient(135deg,#6b1a4a,#b5446e)"></div>
+          <div class="memory-card face-down" style="min-height:64px;background:linear-gradient(135deg,#6b1a4a,#b5446e)"></div>
+          <div class="memory-card face-up" style="font-size:20px;min-height:64px">5<div class="card-label" style="font-size:9px">חָמֵשׁ</div></div>
+          <div class="memory-card face-down" style="min-height:64px;background:linear-gradient(135deg,#6b1a4a,#b5446e)"></div>
+          <div class="memory-card matched" style="font-size:20px;min-height:64px">כ<div class="card-label" style="font-size:9px">כֶּלֶב</div></div>
+          <div class="memory-card matched" style="font-size:20px;min-height:64px">🐕<div class="card-label" style="font-size:9px">כֶּלֶב</div></div>
+          <div class="memory-card face-down" style="min-height:64px;background:linear-gradient(135deg,#6b1a4a,#b5446e)"></div>
+          <div class="memory-card face-down" style="min-height:64px;background:linear-gradient(135deg,#6b1a4a,#b5446e)"></div>
+          <div class="memory-card face-down" style="min-height:64px;background:linear-gradient(135deg,#6b1a4a,#b5446e)"></div>
+          <div class="memory-card face-down" style="min-height:64px;background:linear-gradient(135deg,#6b1a4a,#b5446e)"></div>
+        </div>
+        <div class="board-footer">
+          <button class="hint-btn">🔍 עזרה</button>
+          <button class="home-btn">🏠</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:24px;padding:16px;background:rgba(255,255,255,0.04);border-radius:12px;font-size:13px;color:rgba(255,255,255,0.6)">
+    <strong style="color:var(--teal)">RTL Note:</strong> In Hebrew mode — Pair counter top-left, Home button bottom-left, Hint button bottom-right. Direction-neutral grid (no change needed).
+    <strong style="color:var(--yellow);margin-left:20px">Matched pairs:</strong> Stay visible, grayed (default). Reduces cognitive load of tracking remaining cards.
+  </div>
+</div>
+
+<!-- SLIDE: STATES -->
+<div class="slide" id="slide-states">
+  <div class="slide-label">Slide 06 — Card States</div>
+  <div class="slide-title">4 States. <span style="color:var(--teal)">All Animated.</span></div>
+  <div class="slide-sub">Every state has a specific visual, animation, sound, and voice behaviour. Nothing is arbitrary.</div>
+
+  <div class="states-grid">
+    <div class="state-demo">
+      <div class="state-card-demo state-face-down"></div>
+      <div class="state-name">Face Down (Idle)</div>
+      <div class="state-desc">Theme card-back pattern. Shimmer pulse every 3s — invites tapping. Scale 1.0.</div>
+    </div>
+    <div class="state-demo">
+      <div class="state-card-demo state-face-up">🦁</div>
+      <div class="state-name">Face Up (Active)</div>
+      <div class="state-desc">300ms CSS 3D rotateY flip. Content spoken aloud. Scale 1.05. Awaiting second tap.</div>
+    </div>
+    <div class="state-demo">
+      <div class="state-card-demo state-matched">🦁</div>
+      <div class="state-name">Matched ✓</div>
+      <div class="state-desc">Green glow. 600ms pulse animation. Opacity 0.7. Stays visible (default locked decision).</div>
+    </div>
+    <div class="state-demo">
+      <div class="state-card-demo state-mismatch">🐘</div>
+      <div class="state-name">Mismatch (250ms)</div>
+      <div class="state-desc">Red border pulse. Both cards stay up for 250ms. Then flip-back. Soft "whomp" sound. No voice.</div>
+    </div>
+  </div>
+
+  <div style="margin-top:36px">
+    <div style="font-size:14px;font-weight:700;color:var(--orange);margin-bottom:16px">Auto-Solve: After 4 Misses on Same Pair</div>
+    <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+      <div style="background:rgba(255,107,53,0.1);border:1px solid rgba(255,107,53,0.3);border-radius:12px;padding:16px;flex:1;min-width:200px">
+        <div style="font-size:12px;color:var(--orange);margin-bottom:6px">TRIGGER</div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.7)">Same pair missed 4× → both cards pulse gently → correct pair highlighted → auto-matched</div>
+      </div>
+      <div style="font-size:24px;opacity:0.4">→</div>
+      <div style="background:rgba(6,214,160,0.1);border:1px solid rgba(6,214,160,0.3);border-radius:12px;padding:16px;flex:1;min-width:200px">
+        <div style="font-size:12px;color:var(--green);margin-bottom:6px">VOICE CUE</div>
+        <div style="font-size:16px;font-family:'Varela Round';direction:rtl">"הנה הם! [שמות הקלפים]"</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.5);margin-top:4px">"Here they are! [card names]"</div>
+      </div>
+      <div style="font-size:24px;opacity:0.4">→</div>
+      <div style="background:rgba(155,93,229,0.1);border:1px solid rgba(155,93,229,0.3);border-radius:12px;padding:16px;flex:1;min-width:200px">
+        <div style="font-size:12px;color:var(--purple);margin-bottom:6px">RESULT</div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.7)">Pair grayed. Round continues. No punishment signal. Progress tracked as low-confidence pair.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE: CONTENT -->
+<div class="slide" id="slide-content">
+  <div class="slide-label">Slide 07 — Content Library</div>
+  <div class="slide-title">What's On <span style="color:var(--purple)">The Cards.</span></div>
+  <div class="slide-sub">Pairs are conceptual — cards share meaning, not appearance. Ages 3–4 get identical image pairs. Ages 5–6 get associative pairs.</div>
+
+  <div class="pairs-showcase">
+
+    <div class="pair-demo">
+      <div class="pair-category">🦁 Animals (Band A) — Identical Pairs</div>
+      <div class="pair-cards">
+        <div class="pair-card">
+          <div class="pair-card-emoji">🦁</div>
+          <div class="pair-card-text">אַרְיֵה</div>
+        </div>
+        <div class="pair-arrow">↔</div>
+        <div class="pair-card">
+          <div class="pair-card-emoji">🦁</div>
+          <div class="pair-card-text">אַרְיֵה</div>
+        </div>
+      </div>
+      <div class="pair-concept">Same image both sides. Audio: "אַרְיֵה!" on each flip.</div>
+    </div>
+
+    <div class="pair-demo">
+      <div class="pair-category">אָלֶף-בֵּית Letters (Band B)</div>
+      <div class="pair-cards">
+        <div class="pair-card">
+          <div class="pair-card-emoji" style="font-size:36px;font-family:'Varela Round'">א</div>
+          <div class="pair-card-text">אָלֶף</div>
+        </div>
+        <div class="pair-arrow">↔</div>
+        <div class="pair-card">
+          <div class="pair-card-emoji">🦁</div>
+          <div class="pair-card-text">אֲרִי</div>
+        </div>
+      </div>
+      <div class="pair-concept">Letter ↔ Picture-word. "Aleph sounds like Ari."</div>
+    </div>
+
+    <div class="pair-demo">
+      <div class="pair-category">🔢 Numbers + Subitizing (Band B)</div>
+      <div class="pair-cards">
+        <div class="pair-card">
+          <div class="pair-card-emoji" style="font-size:40px;font-family:'Varela Round'">5</div>
+          <div class="pair-card-text">חָמֵשׁ</div>
+        </div>
+        <div class="pair-arrow">↔</div>
+        <div class="pair-card">
+          <div style="font-size:18px;letter-spacing:3px;margin-bottom:4px">⚀⚀⚀⚀⚀</div>
+          <div class="pair-card-text">dice pattern</div>
+        </div>
+      </div>
+      <div class="pair-concept">Numeral ↔ Gestalt dot cluster. No counting needed.</div>
+    </div>
+
+    <div class="pair-demo">
+      <div class="pair-category">🎨 Colors (Band B — Candy Land)</div>
+      <div class="pair-cards">
+        <div class="pair-card">
+          <div class="pair-card-emoji" style="font-size:28px;font-family:'Varela Round'">כָּחֹל</div>
+          <div class="pair-card-text">Hebrew name</div>
+        </div>
+        <div class="pair-arrow">↔</div>
+        <div class="pair-card">
+          <div style="width:48px;height:48px;background:#457B9D;border-radius:10px;margin:0 auto 6px"></div>
+          <div class="pair-card-text">color swatch</div>
+        </div>
+      </div>
+      <div class="pair-concept">Hebrew color word ↔ Pure color block.</div>
+    </div>
+
+    <div class="pair-demo">
+      <div class="pair-category">🔷 Shapes (Band B)</div>
+      <div class="pair-cards">
+        <div class="pair-card">
+          <div class="pair-card-emoji">△</div>
+          <div class="pair-card-text">shape image</div>
+        </div>
+        <div class="pair-arrow">↔</div>
+        <div class="pair-card">
+          <div class="pair-card-emoji" style="font-size:22px;font-family:'Varela Round'">מְשׁוּלָשׁ</div>
+          <div class="pair-card-text">Hebrew name</div>
+        </div>
+      </div>
+      <div class="pair-concept">Visual shape ↔ Hebrew name with nikud.</div>
+    </div>
+
+    <div class="pair-demo">
+      <div class="pair-category">🐢 Animal + Hebrew Word (Band B)</div>
+      <div class="pair-cards">
+        <div class="pair-card">
+          <div class="pair-card-emoji">🐢</div>
+          <div class="pair-card-text">animal photo</div>
+        </div>
+        <div class="pair-arrow">↔</div>
+        <div class="pair-card">
+          <div class="pair-card-emoji" style="font-size:26px;font-family:'Varela Round'">צַב</div>
+          <div class="pair-card-text">Hebrew word</div>
+        </div>
+      </div>
+      <div class="pair-concept">Animal picture ↔ Hebrew word. Voice says word on flip.</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- SLIDE: AI -->
+<div class="slide" id="slide-ai">
+  <div class="slide-label">Slide 08 — Intelligence Layer</div>
+  <div class="slide-title">AI That Knows <span style="color:var(--teal)">When to Talk.</span></div>
+  <div class="slide-sub">Claude API fires only when a child is genuinely stuck. Not on every miss. Not on every round. Purposeful and minimal — following global Locked Decision #6.</div>
+
+  <div class="ai-flow">
+    <div class="ai-step">
+      <div class="ai-step-icon">🎴</div>
+      <div class="ai-step-title">Child Misses Pair</div>
+      <div class="ai-step-desc">Cards flip back after 250ms window. Soft whomp sound. No punishment.</div>
+    </div>
+    <div class="ai-arrow">→</div>
+    <div class="ai-step">
+      <div class="ai-step-icon">🔁</div>
+      <div class="ai-step-title">2nd Miss (Same Pair)</div>
+      <div class="ai-step-desc">AI hint triggered. Claude API call with child age + card content context.</div>
+    </div>
+    <div class="ai-arrow">→</div>
+    <div class="ai-step">
+      <div class="ai-step-icon">💬</div>
+      <div class="ai-step-title">Hint Delivered</div>
+      <div class="ai-step-desc">Hebrew hint narrated via Web Speech. Cached 7 days. Never reveals answer directly.</div>
+    </div>
+  </div>
+
+  <div class="hint-bubble">
+    "הַאֵם אַתָּה מַכִּיר אֲרִי? הוּא חַי בַּגׇּן וְיֵשׁ לוֹ רַעְמָה גְּדוֹלָה — בְּדִיּוּק כְּמוֹ הָאוֹת הָרִאשׁוֹנָה שֶׁלּוֹ!"
+    <div style="font-size:12px;direction:ltr;color:rgba(255,255,255,0.5);margin-top:8px">"Do you know Ari (the lion)? He lives in the jungle and has a big mane — just like his first letter!"</div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:24px">
+    <div style="background:rgba(255,255,255,0.04);border-radius:14px;padding:18px">
+      <div style="font-size:12px;font-weight:700;color:var(--orange);margin-bottom:8px">🎉 CELEBRATION VARIATION</div>
+      <div style="font-size:13px;color:rgba(255,255,255,0.6)">After round complete, AI generates a fresh Hebrew praise phrase — never repeating "כל הכבוד" every time. Cached per session.</div>
+      <div style="font-family:'Varela Round';direction:rtl;font-size:16px;margin-top:10px;color:var(--yellow)">"וואו! אַתָּה זוֹכֵר הַכֹּל!"</div>
+    </div>
+    <div style="background:rgba(255,255,255,0.04);border-radius:14px;padding:18px">
+      <div style="font-size:12px;font-weight:700;color:var(--teal);margin-bottom:8px">💾 CACHING RULE</div>
+      <div style="font-size:13px;color:rgba(255,255,255,0.6)">Hints cached in localStorage per pair-ID. Cache expires 7 days. No redundant API calls. Offline fallback: generic warm prompt in Hebrew.</div>
+    </div>
+    <div style="background:rgba(255,255,255,0.04);border-radius:14px;padding:18px">
+      <div style="font-size:12px;font-weight:700;color:var(--purple);margin-bottom:8px">🤖 MODEL</div>
+      <div style="font-size:13px;color:rgba(255,255,255,0.6)">claude-sonnet-4-20250514. max_tokens: 80 (short answer for kids). System: warm Hebrew-speaking tutor, never gives direct answer.</div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE: SRS -->
+<div class="slide" id="slide-srs">
+  <div class="slide-label">Slide 09 — Spaced Repetition</div>
+  <div class="slide-title">Memory That <span style="color:var(--green)">Lasts Days.</span></div>
+  <div class="slide-sub">The Ebbinghaus algorithm, adapted for a 4-year-old. Weak pairs come back sooner. Strong pairs rest. Every session is personalised.</div>
+
+  <div class="srs-viz">
+    <div class="srs-card weak">
+      <div style="font-size:32px">😰</div>
+      <div class="srs-label">Weak Pair</div>
+      <div class="srs-bar"></div>
+      <div class="srs-weight">× 3.0</div>
+      <div class="srs-detail">accuracy &lt;60%<br>Appears in current + next session. Re-entered into pool immediately.</div>
+    </div>
+    <div class="srs-card medium">
+      <div style="font-size:32px">🤔</div>
+      <div class="srs-label">Learning Pair</div>
+      <div class="srs-bar"></div>
+      <div class="srs-weight">× 1.5</div>
+      <div class="srs-detail">accuracy 60–80%<br>Normal frequency. Revisited in next 1–2 sessions.</div>
+    </div>
+    <div class="srs-card strong">
+      <div style="font-size:32px">😎</div>
+      <div class="srs-label">Mastered Pair</div>
+      <div class="srs-bar"></div>
+      <div class="srs-weight">× 0.5</div>
+      <div class="srs-detail">accuracy &gt;80%<br>Rested. Appears less often. Child knows this one.</div>
+    </div>
+  </div>
+
+  <div style="margin-top:24px;background:rgba(255,255,255,0.03);border-radius:16px;padding:20px">
+    <div style="font-size:12px;font-weight:700;color:var(--teal);margin-bottom:12px">LOCALSTORAGE SCHEMA</div>
+    <div style="font-family:'Courier New';font-size:13px;color:#7FD8BE;background:#1E2A3A;border-radius:10px;padding:16px;line-height:1.8">
+      <span style="color:#888">// key: 'ylmd_memory_progress'</span><br>
+      {<br>
+      &nbsp;&nbsp;pairs: {<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#FFD166">"letter-aleph-ari"</span>: { attempts: <span style="color:#FF6B35">8</span>, correct: <span style="color:#06D6A0">6</span>, lastSeen: <span style="color:#9B5DE5">timestamp</span> },<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#FFD166">"number-5-dots"</span>: { attempts: <span style="color:#FF6B35">3</span>, correct: <span style="color:#06D6A0">1</span>, lastSeen: <span style="color:#9B5DE5">timestamp</span> },<br>
+      &nbsp;&nbsp;},<br>
+      &nbsp;&nbsp;sessions: <span style="color:#FF6B35">7</span>, totalStars: <span style="color:#FFD166">19</span>,<br>
+      &nbsp;&nbsp;bestRound: { pairCount: <span style="color:#FF6B35">6</span>, flips: <span style="color:#06D6A0">11</span>, stars: <span style="color:#FFD166">3</span> }<br>
+      }
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE: WIN -->
+<div class="slide" id="slide-win">
+  <div class="slide-label">Slide 10 — Celebration Design</div>
+  <div class="slide-title">Every Completion <span style="color:var(--yellow)">Is a Win.</span></div>
+  <div class="slide-sub">1-star, 2-star, 3-star — all get a full celebration. Stars are rewards, never punishment. No score is shown, only achievement.</div>
+
+  <div class="win-screen">
+    <div class="confetti" id="confetti"></div>
+    <div class="win-stars">⭐⭐⭐</div>
+    <div class="win-hebrew">כָּל הַכָּבוֹד! מָצָאתָ 6 זוּגוֹת!</div>
+    <div class="win-sub">You found all 6 pairs! Beautiful work.</div>
+    <div class="win-buttons">
+      <button class="win-btn primary">עוֹד פַּעַם! 🔄</button>
+      <button class="win-btn secondary">🏠 הַבַּיְתָה</button>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:24px">
+    <div style="background:rgba(255,255,255,0.04);border-radius:12px;padding:16px;text-align:center">
+      <div style="font-size:28px;margin-bottom:8px">⭐</div>
+      <div style="font-size:13px;font-weight:700;margin-bottom:4px">1 Star</div>
+      <div style="font-size:12px;color:rgba(255,255,255,0.5)">Round completed (any flip count)</div>
+      <div style="font-size:12px;color:var(--green);margin-top:8px">Full celebration ✓</div>
+    </div>
+    <div style="background:rgba(255,255,255,0.04);border-radius:12px;padding:16px;text-align:center">
+      <div style="font-size:28px;margin-bottom:8px">⭐⭐</div>
+      <div style="font-size:13px;font-weight:700;margin-bottom:4px">2 Stars</div>
+      <div style="font-size:12px;color:rgba(255,255,255,0.5)">Flips ≤ pairs × 3.5</div>
+      <div style="font-size:12px;color:var(--green);margin-top:8px">Confetti burst ✓</div>
+    </div>
+    <div style="background:rgba(255,255,255,0.04);border-radius:12px;padding:16px;text-align:center">
+      <div style="font-size:28px;margin-bottom:8px">⭐⭐⭐</div>
+      <div style="font-size:13px;font-weight:700;margin-bottom:4px">3 Stars</div>
+      <div style="font-size:12px;color:rgba(255,255,255,0.5)">Flips ≤ pairs × 2.2</div>
+      <div style="font-size:12px;color:var(--green);margin-top:8px">Full fanfare + AI praise ✓</div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE: PLAY DEMO -->
+<div class="slide" id="slide-play">
+  <div class="slide-label">Slide 11 — Interactive Demo</div>
+  <div class="slide-title">▶ Try It: <span style="color:var(--orange)">Live Prototype</span></div>
+  <div class="slide-sub">Tap cards to flip. Find the matching pairs. Switch themes to see how the board transforms.</div>
+
+  <div class="live-board-container">
+    <div class="theme-switcher" id="theme-switcher">
+      <button class="theme-switch-btn active" data-theme="jungle" style="background:#2d7a00;color:#fff" onclick="setTheme('jungle',this)">🦁 Jungle</button>
+      <button class="theme-switch-btn" data-theme="candy" style="background:rgba(181,68,110,0.3);color:#fff" onclick="setTheme('candy',this)">🍭 Candy</button>
+      <button class="theme-switch-btn" data-theme="toy" style="background:rgba(139,69,19,0.4);color:#fff" onclick="setTheme('toy',this)">🚂 Toy</button>
+      <button class="theme-switch-btn" data-theme="ocean" style="background:rgba(0,102,204,0.4);color:#fff" onclick="setTheme('ocean',this)">🌊 Ocean</button>
+      <button class="theme-switch-btn" data-theme="space" style="background:rgba(26,10,74,0.6);color:#fff" onclick="setTheme('space',this)">🔭 Space</button>
+    </div>
+
+    <div id="live-board">
+      <div class="live-header" id="live-header">
+        <div id="live-theme-label" style="font-size:15px;font-weight:700">🦁 Jungle World</div>
+        <div style="text-align:right">
+          <div id="live-pairs" style="font-size:13px;color:rgba(255,255,255,0.5)">זוגות: 0/6</div>
+        </div>
+      </div>
+      <div class="live-grid g3x4" id="live-grid"></div>
+      <div class="live-status" id="live-status">הפוך שני קלפים כדי למצוא זוג!</div>
+      <button class="reset-btn" onclick="initGame()">🔄 משחק חדש</button>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE: LOCKED -->
+<div class="slide" id="slide-locked">
+  <div class="slide-label">Slide 12 — Locked Decisions</div>
+  <div class="slide-title">🔒 What's <span style="color:var(--orange)">Non-Negotiable.</span></div>
+  <div class="slide-sub">These decisions are set. Codi does not deviate. Can only be re-opened by Oren.</div>
+
+  <div class="locks-grid">
+    <div class="lock-card">
+      <div class="lock-icon">🎴</div>
+      <div>
+        <div class="lock-title">M-01: Conceptual pairs (not identical) for ages 5+</div>
+        <div class="lock-desc">Vocabulary reinforcement > pure pattern match. Identical pairs only for Band A (ages 3–4).</div>
+      </div>
+    </div>
+    <div class="lock-card">
+      <div class="lock-icon">⏱️</div>
+      <div>
+        <div class="lock-title">M-02: No timers in any mode</div>
+        <div class="lock-desc">Time pressure activates stress. Stress blocks hippocampal encoding. Children set their own pace.</div>
+      </div>
+    </div>
+    <div class="lock-card">
+      <div class="lock-icon">👁️</div>
+      <div>
+        <div class="lock-title">M-03: 250ms face-up window on mismatch</div>
+        <div class="lock-desc">Transforms a miss into a passive learning moment. Both cards visible before flip-back.</div>
+      </div>
+    </div>
+    <div class="lock-card">
+      <div class="lock-icon">🆘</div>
+      <div>
+        <div class="lock-title">M-04: Auto-solve after 4 misses</div>
+        <div class="lock-desc">No dead ends. Frustration is the enemy of memory formation. Warm voice cue, not a failure state.</div>
+      </div>
+    </div>
+    <div class="lock-card">
+      <div class="lock-icon">⭐</div>
+      <div>
+        <div class="lock-title">M-05: Stars = celebration only</div>
+        <div class="lock-desc">1-star = full celebration. Star loss never shown. Stars are never a punishment mechanism.</div>
+      </div>
+    </div>
+    <div class="lock-card">
+      <div class="lock-icon">🤖</div>
+      <div>
+        <div class="lock-title">M-07: AI only on stuck state</div>
+        <div class="lock-desc">Not on every miss. Not on every round. After 2 misses on same pair only. Cached 7 days.</div>
+      </div>
+    </div>
+    <div class="lock-card">
+      <div class="lock-icon">📊</div>
+      <div>
+        <div class="lock-title">M-08: Spaced repetition across sessions</div>
+        <div class="lock-desc">localStorage tracks per-pair accuracy. Weak pairs return sooner. Durable learning, not one-session entertainment.</div>
+      </div>
+    </div>
+    <div class="lock-card">
+      <div class="lock-icon">🏆</div>
+      <div>
+        <div class="lock-title">M-09: Memory Match = canonical Small Win</div>
+        <div class="lock-desc">Any module can call window.launchSmallWin() to reset confidence with 4-card auto-success.</div>
+      </div>
+    </div>
+    <div class="lock-card">
+      <div class="lock-icon">🔲</div>
+      <div>
+        <div class="lock-title">M-10: Matched pairs stay visible (grayed)</div>
+        <div class="lock-desc">Default locked. Reduces cognitive load of tracking remaining cards. Selectable in future version.</div>
+      </div>
+    </div>
+    <div class="lock-card">
+      <div class="lock-icon">🚫</div>
+      <div>
+        <div class="lock-title">SCOPE: Ages 3–6 only</div>
+        <div class="lock-desc">Band C (7–8) with math compositions, 4×6 grids, and challenge modes is out of scope. Backlog v1.5.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+// ── NAV ─────────────────────────────────────────────────────────
+function showSlide(id) {
+  document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('slide-' + id).classList.add('active');
+  event.target.classList.add('active');
+  window.scrollTo(0,0);
+  if (id === 'win') spawnConfetti();
+}
+
+// ── CONFETTI ────────────────────────────────────────────────────
+function spawnConfetti() {
+  const el = document.getElementById('confetti');
+  if (!el) return;
+  el.innerHTML = '';
+  const items = ['🌟','✨','🎉','🎊','⭐','💫','🌈','🎈'];
+  for (let i = 0; i < 20; i++) {
+    const p = document.createElement('div');
+    p.className = 'confetti-piece';
+    p.textContent = items[Math.floor(Math.random() * items.length)];
+    p.style.left = Math.random() * 100 + '%';
+    p.style.animationDelay = Math.random() * 3 + 's';
+    p.style.animationDuration = (2.5 + Math.random() * 2) + 's';
+    el.appendChild(p);
+  }
+}
+
+// ── LIVE GAME ────────────────────────────────────────────────────
+const THEMES = {
+  jungle: {
+    label: '🦁 Jungle World',
+    bg: 'linear-gradient(135deg, #1a4a00, #2d7a00)',
+    backColor: 'linear-gradient(135deg, #1a4a00, #2d7a00)',
+    backIcon: '🌿',
+    borderColor: 'rgba(6,214,160,0.4)',
+    matchGlow: 'rgba(6,214,160,0.4)',
+    headerBg: 'rgba(6,214,160,0.05)',
+  },
+  candy: {
+    label: '🍭 Candy Land',
+    bg: 'linear-gradient(135deg, #4a001a, #8B1A4A)',
+    backColor: 'linear-gradient(135deg, #6b1a4a, #b5446e)',
+    backIcon: '💕',
+    borderColor: 'rgba(255,133,161,0.4)',
+    matchGlow: 'rgba(255,133,161,0.4)',
+    headerBg: 'rgba(255,133,161,0.05)',
+  },
+  toy: {
+    label: '🚂 Toy Town',
+    bg: 'linear-gradient(135deg, #3a1500, #6b3000)',
+    backColor: 'linear-gradient(135deg, #5C3317, #8B4513)',
+    backIcon: '🎲',
+    borderColor: 'rgba(255,209,102,0.4)',
+    matchGlow: 'rgba(255,209,102,0.4)',
+    headerBg: 'rgba(255,209,102,0.05)',
+  },
+  ocean: {
+    label: '🌊 Ocean Deep',
+    bg: 'linear-gradient(135deg, #001a3a, #003366)',
+    backColor: 'linear-gradient(135deg, #001a4a, #0052a3)',
+    backIcon: '🫧',
+    borderColor: 'rgba(0,180,230,0.4)',
+    matchGlow: 'rgba(0,180,230,0.4)',
+    headerBg: 'rgba(0,180,166,0.05)',
+  },
+  space: {
+    label: '🔭 Space Explorer',
+    bg: 'linear-gradient(135deg, #05050f, #0a0a2e)',
+    backColor: 'linear-gradient(135deg, #05051a, #0f0f3a)',
+    backIcon: '✨',
+    borderColor: 'rgba(155,93,229,0.4)',
+    matchGlow: 'rgba(155,93,229,0.4)',
+    headerBg: 'rgba(155,93,229,0.05)',
+  },
+};
+
+const CARD_PAIRS = [
+  { id: 'aleph', a: { e: 'א', t: 'אָלֶף' }, b: { e: '🦁', t: 'אֲרִי' } },
+  { id: 'bet',   a: { e: 'ב', t: 'בֵּית' }, b: { e: '🏠', t: 'בַּיִת' } },
+  { id: 'gimel', a: { e: 'ג', t: 'גִּימֶל' }, b: { e: '🐪', t: 'גַּמָל' } },
+  { id: 'dalet', a: { e: 'ד', t: 'דָּלֶת' }, b: { e: '🐟', t: 'דָּג' } },
+  { id: 'shin',  a: { e: 'ש', t: 'שִׁין' }, b: { e: '☀️', t: 'שֶׁמֶשׁ' } },
+  { id: 'tav',   a: { e: 'ת', t: 'תָּו' }, b: { e: '🍎', t: 'תַּפּוּחַ' } },
+];
+
+let currentTheme = 'jungle';
+let flipped = [];
+let matched = [];
+let locked = false;
+let cards = [];
+let pairs = 0;
+let totalFlips = 0;
+
+function setTheme(theme, btn) {
+  currentTheme = theme;
+  document.querySelectorAll('.theme-switch-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  initGame();
+}
+
+function initGame() {
+  flipped = []; matched = []; locked = false; totalFlips = 0;
+  const t = THEMES[currentTheme];
+
+  document.getElementById('live-theme-label').textContent = t.label;
+  document.getElementById('live-header').style.background = t.headerBg;
+
+  // Build shuffled card array
+  const rawPairs = CARD_PAIRS.slice(0, 6);
+  pairs = rawPairs.length;
+  cards = [];
+  rawPairs.forEach(p => {
+    cards.push({ pairId: p.id, ...p.a });
+    cards.push({ pairId: p.id, ...p.b });
+  });
+  // Shuffle
+  for (let i = cards.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [cards[i], cards[j]] = [cards[j], cards[i]];
+  }
+
+  document.getElementById('live-pairs').textContent = `זוגות: 0/${pairs}`;
+  document.getElementById('live-status').textContent = 'הפוך שני קלפים כדי למצוא זוג!';
+
+  const grid = document.getElementById('live-grid');
+  grid.innerHTML = '';
+
+  cards.forEach((card, i) => {
+    const el = document.createElement('div');
+    el.className = 'live-card';
+    el.dataset.index = i;
+    el.onclick = () => onFlip(i);
+    setCardFaceDown(el, t);
+    grid.appendChild(el);
+  });
+}
+
+function setCardFaceDown(el, t) {
+  const theme = t || THEMES[currentTheme];
+  el.style.background = theme.backColor;
+  el.style.borderColor = 'rgba(255,255,255,0.1)';
+  el.style.boxShadow = '';
+  el.innerHTML = `<span style="font-size:28px;opacity:0.4">${theme.backIcon}</span>`;
+}
+
+function setCardFaceUp(el, card) {
+  el.style.background = 'rgba(255,255,255,0.07)';
+  el.style.borderColor = 'rgba(255,255,255,0.25)';
+  el.style.boxShadow = '0 8px 24px rgba(0,0,0,0.3)';
+  el.innerHTML = `
+    <span style="font-size:${card.e.length > 2 ? '22px' : '34px'};font-family:'Varela Round',sans-serif">${card.e}</span>
+    <div class="card-text-label">${card.t}</div>
+  `;
+}
+
+function setCardMatched(el, card) {
+  const t = THEMES[currentTheme];
+  el.style.background = 'rgba(6,214,160,0.1)';
+  el.style.borderColor = 'rgba(6,214,160,0.5)';
+  el.style.boxShadow = `0 0 18px ${t.matchGlow}`;
+  el.style.opacity = '0.65';
+  el.innerHTML = `
+    <span style="font-size:${card.e.length > 2 ? '22px' : '34px'};font-family:'Varela Round',sans-serif">${card.e}</span>
+    <div class="card-text-label">${card.t}</div>
+  `;
+}
+
+async function onFlip(i) {
+  if (locked) return;
+  if (flipped.includes(i)) return;
+  if (matched.some(m => m === cards[i].pairId && flipped.length < 2)) return;
+
+  const gridEl = document.getElementById('live-grid');
+  const cardEls = gridEl.querySelectorAll('.live-card');
+  const el = cardEls[i];
+
+  // Already matched?
+  const isMatched = matched.includes(cards[i].pairId);
+  if (isMatched) return;
+
+  setCardFaceUp(el, cards[i]);
+  flipped.push(i);
+  totalFlips++;
+
+  if (flipped.length === 2) {
+    locked = true;
+    const [a, b] = flipped;
+    await wait(150);
+
+    if (cards[a].pairId === cards[b].pairId) {
+      // MATCH
+      matched.push(cards[a].pairId);
+      [a, b].forEach(idx => setCardMatched(cardEls[idx], cards[idx]));
+      cardEls[a].classList.add('pulsing');
+      cardEls[b].classList.add('pulsing');
+      setTimeout(() => {
+        cardEls[a].classList.remove('pulsing');
+        cardEls[b].classList.remove('pulsing');
+      }, 700);
+
+      const matchCount = matched.length;
+      document.getElementById('live-pairs').textContent = `זוגות: ${matchCount}/${pairs}`;
+
+      if (matchCount === pairs) {
+        // Win!
+        const stars = totalFlips <= pairs * 2.2 ? '⭐⭐⭐' : totalFlips <= pairs * 3.5 ? '⭐⭐' : '⭐';
+        await wait(600);
+        document.getElementById('live-status').textContent = `${stars} כָּל הַכָּבוֹד! מָצָאתָ ${pairs} זוּגוֹת!`;
+      } else {
+        document.getElementById('live-status').textContent = `✅ זוג! ${pairs - matchCount} נותרו...`;
+      }
+      flipped = [];
+      locked = false;
+    } else {
+      // MISMATCH — 250ms window
+      document.getElementById('live-status').textContent = 'לֹא זוּג... נַסֵּה שׁוּב!';
+      await wait(250);
+      [a, b].forEach(idx => setCardFaceDown(cardEls[idx]));
+      flipped = [];
+      locked = false;
+      await wait(200);
+      document.getElementById('live-status').textContent = 'הפוך שני קלפים כדי למצוא זוג!';
+    }
+  }
+}
+
+function wait(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+// Init on load
+document.addEventListener('DOMContentLoaded', () => {
+  initGame();
+  spawnConfetti();
+});
+</script>
+</body>
+</html>
