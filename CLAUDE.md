@@ -70,52 +70,10 @@
 
 ---
 
-## 🏗️ Build Phases
+## 📖 See PLANNING.md
 
-| Phase | Focus | Status |
-|-------|-------|--------|
-| **1 — Hebrew Core** | Letters + Numbers, RTL, he-IL TTS, touch | ✅ Done |
-| **2 — Fine Motor** | Canvas letter tracing — finger/mouse, pixel-mask scoring, 3 modes | ✅ Done |
-| **3 — More Modules** | Shapes (צורות) + Colors (צבעים) | ✅ Done |
-| **BONUS** | Math (חשבון) — age-tiered arithmetic | ✅ Done |
-| **BONUS** | Engineering (הנדסה) — 8 tools, reverse mode | ✅ Done |
-| **4 — Adaptive Engine** | localStorage accuracy tracking, weighted question pool | ⚠️ Partial (basic weighting only) |
-| **5 — Input Expansion** | Gamepad API ✅ done — MediaPipe Hands/Pose | 🔨 MediaPipe pending |
-| **6 — AI Layer** | Claude API hints after 2 wrong answers, cached | ⚠️ Partial (limited categories, no error handling) |
-| **7 — English Toggle** | Runtime toggle wired, dir switches RTL↔LTR, all hardcoded strings moved to i18n | ✅ Done |
-| **8 — Distribution** | manifest.json + sw.js exist, GitHub Pages not set up | ⚠️ Partial |
-| **9 — Memory Match + Voice Game** | 2 new modules, home redesign, theme/progress engine, tracing improvements | ✅ Done |
-| **13 — Immersive Worlds** | Sky gradients, theme mascot animations, particle behaviors, glow/depth | ✅ Done (2026-03-10) |
-| **10 — Child Profiles** | Per-profile localStorage, Profile Selector screen, welcome-back tiers, v0.9 migration | ✅ Done |
-| **Memory Match v1.1** | Full PDD redesign — Band A/B, 3D flip, auto-solve, peek hint, star rating | ✅ Done (2026-03-12) |
-| **Physics & Nature v1.2** | Full module — hub+quiz, 11 concepts Band A/B, 4 question types, all animations, Claude hints | ✅ Done (2026-03-13) |
-| **11 — Spaced Repetition** | SM2-style scheduling, replaces 2× weighting | 🔲 Backlog |
-
----
-
-## ✅ Phase 2 — Definition of Done (Letter Tracing) — COMPLETE
-
-- [x] Canvas element with touch + mouse drawing
-- [x] Each letter has a defined stroke path (direction + sequence)
-- [x] **Guided mode:** trace over faded letter outline
-- [x] **Faded mode:** minimal guide, partial outline only
-- [x] **Free mode:** blank canvas, no guide
-- [x] Stroke scoring: tolerant — not pixel-perfect (small hands!)
-- [x] Audio feedback: correct stroke → praise | wrong direction → gentle redirect
-- [x] Works on touchscreen and with mouse
-- [x] Integrated into existing Letters module flow
-
-### Tracing — Implementation Notes
-- Tracing logic lives in **`modules/letters.js`** (not a separate file)
-- Guide: faded Hebrew letter rendered via canvas text (alpha 0.18 guided / 0.08 faded)
-- Guided mode: start dot + direction arrow from `LETTER_STROKES` path
-- Scoring: pixel-mask approach — accuracy (% user points landing on letter) + coverage (% letter covered by user)
-- Tolerance: 9% of canvas size (~27px at 300px canvas)
-- Combined score threshold: 0.62 (40% accuracy weight + 60% coverage weight)
-- Hard gate: accuracy < 44% or coverage < 40% → always fail (blocks random scribbling)
-- Bezier smoothing: quadratic curves through midpoints for smooth real-time drawing
-- On fail: flash orange stroke-path hint for 1.3s, then redraw guide
-- On correct completion: green overlay + checkmark + confetti + star
+**Build phase status** → PLANNING.md `§ Phase Status`  
+**Known issues & backlog** → PLANNING.md `§ Known Issues / Watch List` and `§ Backlog`
 
 ---
 
